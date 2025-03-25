@@ -46,7 +46,7 @@
 \section{Uvod}
 Proteini su osnovni gradivni blokovi svih ćelija u organizmu i kao takvi igraju ključnu ulogu u održavanju života, reprodukciji, odbrani i replikaciji. Sve funkcije proteina zavise od njihove strukture, zbog čega je analiza strukture proteina od izuzetnog značaja u bioinformatičkim i biohemijskim istraživanjima.\\
 \\
-U nastojanju da se postigne precizniji, detaljniji i informativniji prikaz trodimenzionalne strukture proteina, razvijeni su proteinski blokovi. Često nazvani i strukturnim alfabetom, pokazano je da omogućavaju detekciju strukturne sličnosti između proteina sa izuzetnom efikasnošću.\\
+U nastojanju da se postigne precizniji, detaljniji i informativniji prikaz trodimenzionalne strukture proteina, razvijeni su proteinski blokovi. Kao jedni od najistaknutijih predstavnika strukturnih alfabeta, pokazano je da omogućavaju detekciju strukturne sličnosti između proteina sa izuzetnom efikasnošću.\\
 \\
 Ovaj seminarski rad se fokusira na proteinske blokove, sa posebnim akcentom na retke i neočekivane prelaze između njih. Niz proteinskih blokova dobijen je analizom humanog proteoma, koji je generisan pomoću AlphaFold2 programa. Seminarski rad se sastoji od tri ključna segmenta: analize, klasifikacije i klasterovanja proteinskih blokova.\\
 Analiza obuhvata izdvajanje aminokiselina i sekundarnih struktura u retkim prelazima, određivanje prirode vrednosti pLDDT (\textit{the predicted local distance difference test}) i RSA (\textit{relative solvent accessibility}) parametara, kao i poređenje zastupljenosti pojedinačnih aminokiselina u podacima u odnosu na očekivane procente. \\
@@ -61,19 +61,8 @@ Seminarski rad je realizovan u okviru kursa „Istraživanje podataka 2” na Ma
 U ovom poglavlju analizirani su prelazi između proteinskih blokova. Fokus analize bio je na identifikaciji neočekivanih prelaza između proteinskih blokova i proučavanju aminokiselina i sekundarnim struktura prisutnih u njima. Dodatno, ispitane su vrednosti relevantnih parametara, kao i zastupljenost pojedinačnih aminokiselina u podacima.
 
 \subsection{Opis podataka}
-Podaci korišćeni u analizi obuhvataju informacije o proteinskim blokovima (PBs), aminokiselinama (AA), sekundarnim strukturama (S2), predviđenoj učestalosti prelaza, kao i dodatnim parametrima poput pLDDT i RSA. Izvor podataka su rezultati generisani pomoću AlphaFold2 programa. Konkretno, analiza je sprovedena nad dve datoteke: prvobitnog, obimnijeg skupa podataka, koji sadrži sledeće informacije:
-\begin{verbatim}
-Protein_number 	res_number 	PB1 	PB2 	AA1 	AA2 	S2_1 	S2_2
-0 				7 			j 	j 	G 	G 	C 		S
-expected_frequency 	plDDT 		RSA1 		RSA2
-0.880055 			60.180000 	100.000000 	100.000000
-\end{verbatim}
-i manjeg podskupa dobijenog filtriranjem rezultata u skladu sa humanim proteomom, čija je struktura sledeća:
-\begin{verbatim}
-Protein_number PB1 PB2 expected_frequency AA1 AA2 S2_1 S2_2
-1 			   p   f   0.94129547  		 H   E   C    S
-\end{verbatim}
-Podaci su organizovani u tabelarnom formatu, pri čemu svaki red sadrži informacije o konkretnom prelazu između proteinskih blokova, aminokiselinama uključenim u taj prelaz, pripadajućim sekundarnim strukturama, predviđenoj učestalosti prelaza i vrednostima parametara pLDDT i RSA.
+Podaci korišćeni u analizi obuhvataju informacije o proteinskim blokovima (PBs), aminokiselinama (AA), sekundarnim strukturama (S2), predviđenoj učestalosti prelaza, kao i dodatnim parametrima poput pLDDT i RSA. Izvor podataka su rezultati generisani pomoću AlphaFold2 programa. Konkretno, analiza je sprovedena nad dve datoteke: prvobitnog, obimnijeg skupa podataka, koji detaljnije opisuje prelaze između proteinskih blokova i manjeg podskupa dobijenog filtriranjem rezultata u skladu sa humanim proteomom. \\
+Podaci su organizovani u tabelarnom formatu, pri čemu svaki red sadrži parove proteinskih blokova koji čine prelaz, parove aminokiselina i sekundarnih struktura koji ga opisuju, predviđenu učestalost prelaza i vrednosti parametara pLDDT i RSA.
 \\
 U nastavku je dat detaljan opis atributa:
 
@@ -132,8 +121,10 @@ U nastavku je dat detaljan opis atributa:
 	\caption{Aminokiseline i njihove jednoslovne oznake korišćene kao vrednosti atributa AA1 i AA2.}
 	\label{table:1}
 \end{table}
-    \item \textbf{S2\_1, S2\_2} – diskretni, kategorijski i nominalni atributi koji predstavljaju sekundarne strukture prisutne u prelazu. Vrednosti ovih atributa određene su u skladu sa DSSP (\textit{Dictionary of Secondary Structure of Proteins}) standardom, koji klasifikuje sekundarne strukture na osnovu vodoničnih veza između amino i karboksilnih grupa i geometrijskih karakteristika polipeptidnog lanca. U tabeli \ref{table:2} prikazane su oznake i odgovarajući tipovi sekundarne strukture~\cite{carter2003dsspcont}.
 \newpage
+    \item \textbf{S2\_1, S2\_2} – diskretni, kategorijski i nominalni atributi koji predstavljaju sekundarne strukture prisutne u prelazu. Vrednosti ovih atributa određene su pomoću DSSP (\textit{Dictionary of Secondary Structure of Proteins}) programa. DSSP program se koristi za dodeljivanje jednog od osam stanja sekundarne strukture aminokiselinama tako što se identifikuju vodonične veze između amino i karboksilnih grupa glavnog lanca proteina. \\
+U tabeli \ref{table:2} prikazane su oznake i odgovarajući tipovi sekundarne strukture~\cite{carter2003dsspcont}.
+\\
 \begin{table}[h!]
     \centering
     \begin{tabular}{ |c|l| } 
@@ -147,12 +138,13 @@ U nastavku je dat detaljan opis atributa:
     I & Pi-heliks (\textit{$\pi$-heliks}) \\
     T & Heliks okret (\textit{helix-turn}) \\
     S & Zavojnica (\textit{bend}) \\
-    L & Nespecifična ili neorganizovana struktura (\textit{loop}) \\
+    C & Nespecifična ili neorganizovana struktura (\textit{coil}) \\
     \hline
     \end{tabular}
     \caption{Sekundarne strukture proteina prema DSSP standardu, korišćene kao vrednosti atributa S2\_1 i S2\_2.}
     \label{table:2}
-\end{table}      
+\end{table}
+\newpage
     \item \textbf{expected\_frequency} - neprekidan, kvantitativan i razmerni atribut čija vrednost pripada intervalu [0,1] i označava očekivanu učestalost prelaza između proteinskih blokova.
     \item \textbf{plDDT, RSA1, RSA2} – neprekidni, kvantitativni i razmerni atributi čije su vrednosti u intervalu [0,100]. Parametar pLDDT procenjuje pouzdanost predikcije lokalne strukture proteina, dok RSA1 i RSA2 predstavljaju relativnu dostupnost aminokiselinskih ostataka rastvaraču.
 \end{itemize}
@@ -171,6 +163,7 @@ Imajući u vidu prethodno navedeno, obrnut redosled aminokiselina u paru može d
     \caption{Redosled aminokiselina u paru je važan.}
     \label{fig:aa}
 \end{figure}
+\\
 Izračunate su frekvencije svakog para aminokiselina u prelazima. Najčešće se javlja par (G, G). Pregled ostalih 19 najučestalijih parova dat je na slici \ref{fig:aafreq}.
 \begin{figure}[htbp]
     \centering
