@@ -6,3 +6,5 @@ documentation.log
 documentation.synctex.gz
 documentation.toc
 missfont.log
+documentation.fdb_latexmk
+documentation.fls

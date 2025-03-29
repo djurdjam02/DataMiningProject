@@ -2,9 +2,12 @@
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \usepackage{amsmath}
-\usepackage[serbian]{babel}
+\usepackage{babel}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
+
+\renewcommand{\figurename}{Slika}  % Change "Figure" to "Slika"
+\renewcommand{\tablename}{Tabela} 
 
 \begin{document}
 
@@ -55,7 +58,56 @@ Klasterovanje je izvedeno nad skupom podataka koji sadrži informacije o struktu
 \\
 Seminarski rad je realizovan u okviru kursa „Istraživanje podataka 2” na Matematičkom fakultetu Univerziteta u Beogradu.
 \newpage
-\section{O proteinskim blokovima}
+\section{O Proteinskim blokovima}
+Pronalaženje sličnosti u prostornoj strukturi proteina je važno jer može da ukaže na sličnosti u funkcionalnosti proteina, koja nije vidljiva ispitivanjem sekvencijalnih informacija o proteinu. Eksperimentalno određivanje trodimenionalne strukture proteina je skup i vremenski zahtevan proces. Zato, potrebno je da se pronađe efikasan i pouzdan način opisivanja trodimenzionalne strukture proteina, kao i način upoređivanje više struktura proteina međusobno.
+\\
+Struktura proteina se obično opisuje kao alfa-heliks ili beta-ravan zasnovano na vodoničnim vezama između peptidnih veza unutar glavnog lanca proteina, ali ovaj pristup se pokazao previše uprošćen jer preko 50\% strukture proteina ostaje neopisano. 
+Trodimenzionalna struktura može se opisati i korišćennjem aproksimativnih prototipova lokalne strukture proteina. Skup definisanih prototipova lokalne strukture se naziva i strukturni alfabet. Direktno određivanje trodimenizionalne strukture proteina je težak problem, zato se koriste strukturni alfabeti koji opisuju trodimenzionalnu strukturu proteina jednodimenzionalnim nizom strukturnih prototipova. 
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{./images/PBs.jpg}
+    \caption{Šematski prikaz 16 proteinskih blokova označenh slovima od a do p}
+    \label{Slika:1}
+\end{figure}
+
+Jedan od najpoznatijih strukturnih alfabeta jeste Proteinski blokovi (PB), koje je razvio De Brevern (2000). Proteinski blokovi se sastoji od 16 prototipova, koji su izdvojeni korišćenjem algoritama klasterovanja, Kohenonove samoorganizovajuće mape, nad fragmentima od pet uzastopnih aminokiselina kod proteina sa već poznatom strukturom. U prvom istraživanju je korišćeno 228 poznatih proteina, a kasnije je istraživanje ponovljeno nad 400 poznatih proteina. Procedura klasterovanja se odvijala u tri koraka. U prvom koraku se koristi mera sličnosti fragmenata RMSDA (eng. Root Mean Square Deviation on Angle), u drugom koraku se dodatno koristi i verovatnoća prelaska jednog fragmenta u drugi u sekvenci, dok se u trećem koraku izbacuje ograničenje verovatnoće prelaska. Na kraju je odabrano 16 proteinskih blokova, definisanih sa osam diedarskih uglova 8 diedarskih uglova, $\psi_{i-2}$, $\phi_{i-1}$, $\psi_{i-1}$, $\phi_i$, $\psi_i$, $\phi_{i+1}$, $\psi_{i+1}$, $\phi_{i+2}$ u odnosu na centralnu aminokiselinu u fragmentu dužine pet. (Tabela 1)
+\\
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+        \hline
+        \textbf{PB} & \textbf{$\psi_{i-2}$} & \textbf{$\phi_{i-1}$} & \textbf{$\psi_{i-1}$} & \textbf{$\phi_i$} & \textbf{$\psi_i$} & \textbf{$\phi_{i+1}$} & \textbf{$\psi_{i+1}$} & \textbf{$\phi_{i+2}$ } \\
+        \hline
+        a & 41.14 & 75.53 & 13.92 & -99.80 & 131.88 & -96.27 & 122.08 & -99.68 \\ \hline
+        b & 108.24 & -90.12 & 119.54 & -92.21 & -18.06 & -128.93 & 147.04 & -99.90 \\ \hline
+        c & -11.61 & -105.66 & 94.81 & -106.09 & 133.56 & -106.93 & 135.97 & -100.63 \\ \hline
+        d & 141.98 & -112.79 & 132.20 & -114.79 & 140.11 & -111.05 & 139.54 & -103.16 \\ \hline
+        e & 133.25 & -112.37 & 137.64 & -108.13 & 133.00 & -87.30 & 120.54 & 77.40 \\ \hline
+        f & 116.40 & -105.53 & 129.32 & -96.68 & 140.72 & -74.19 & -26.65 & -94.51 \\ \hline
+        g & 0.40   & -81.83 & 4.91 & -100.59 & 85.50 & -71.65 & 130.78 & 84.98 \\ \hline
+        h & 119.14 & -102.58 & 130.83 & -67.91 & 121.55 & 76.25 & -2.95 & -99.88 \\ \hline
+        i & 130.68 & -56.92 & 119.26 & 77.85 & 10.42 & -99.43 & 141.40 & -98.01 \\ \hline
+        j & 114.32 & -121.47 & 118.14 & 82.88 & -150.05 & -83.81 & 23.35 & -85.82 \\ \hline
+        k & 117.16 & -95.41 & 140.40 & -59.35 & -29.23 & -72.39 & -25.08 & -76.16 \\ \hline
+        l & 139.20 & -55.96 & -32.70 & -68.51 & -26.09 & -74.44 & -22.60 & -71.74 \\ \hline
+        m & -39.62 & -64.73 & -39.52 & -65.54 & -38.88 & -66.89 & -37.76 & -70.19 \\ \hline
+        n & -35.34 & -65.03 & -38.12 & -66.34 & -29.51 & -89.10 & -2.91 & 77.90 \\ \hline
+        o & -45.29 & -67.44 & -27.72 & -87.27 & 5.13 & 77.49 & 30.71 & -93.23 \\ \hline
+        p & -27.09 & -86.14 & 0.30 & 59.85 & 21.51 & -96.30 & 132.67 & -92.91 \\ \hline
+    \end{tabular}
+	\caption{Referentni uglovi Proteinskih blokova}
+	\label{Tabela:1}
+\end{table}
+
+Proteinski blokovi su označeni slovima od a do p (Slika~\ref{Slika:1}). Najčešći proteinski blokovi, m i d, odgovaraju redom alfa-heliksu i beta-ravni. Proteinski blokovi od k do j odgovaraju nespecificnim strukturama (eng. coil).
+
+Prevođenje u sekvencu proteinskih blokova kod proteina sa poznatom 3D strukturom odvija se tako što se svakom fragmentu uzastopnih aminokselina dužine pet dodeli jedan proteinski blok sa najmanjom vrednošću RMSDA-a. Može se desiti i da se diedralni uglovi ne mogu izračunati u tom se slučaju dodeljuje slovo Z. Na ovaj način svaka amino kiselina učestvuje u pet proteinskih blokova, osim prve i poslednje.
+
+Strukturni alfabet Proteinski blokovi se koristi i u drugim podoblastima bioinformatike kao što su nadređivanje 3D strukture proteina, istraživanje strukture proteina, definisanje mesta vezivanja, i analize lokalnih konformacija poremećenih proteina.
+
+Postoje alati koji prevode PDB fajlove u sekvence proteinskih blokova, kao što je Plxplore.
+
 \newpage
 \section{Analiza}
 U ovom poglavlju analizirani su prelazi između proteinskih blokova. Fokus analize bio je na identifikaciji neočekivanih prelaza između proteinskih blokova i proučavanju aminokiselina i sekundarnim struktura prisutnih u njima. Dodatno, ispitane su vrednosti relevantnih parametara, kao i zastupljenost pojedinačnih aminokiselina u podacima.
@@ -157,20 +209,20 @@ S obzirom na to da se u podacima korišćenim za ovu analizu prelazi ne nadovezu
 Naime, prilikom dodeljivanja proteinskog bloka fragmentu od 5 aminokiselina, centralna aminokiselina igra ključnu ulogu  jer je ona ta koja efektivno definiše fragment i omogućava izračunavanje 8 diedarskih uglova $\psi_{i-2}$, $\phi_{i-1}$, $\psi_{i-1}$, $\phi_i$, $\psi_i$, $\phi_{i+1}$, $\psi_{i+1}$, $\phi_{i+2}$.  Ovi uglovi se zatim upoređuju sa već definisanim diedarskim uglovima prototipova proteinskih blokova nakon čega se dodeljuje odgovarajući proteinski blok. Dakle, za svaki prelaz centralna aminokiselina je najvažnija zbog njenog uticaja na ceo fragment i zato je baš ona ta koja je izabrana da bude deo podataka, odnosno da bude predstavnik u prelazu. 
 
 Imajući u vidu prethodno navedeno, obrnut redosled aminokiselina u paru može da predstavlja potpuno različit prelaz između proteinskih blokova i zato je važno analizirati ih kao zasebne parove. Slika \ref{fig:aa} prikazuje primer iz skupa podataka koji ilustruje iznesenu tvrdnju.
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.5\textwidth]{/home/djurdja/Downloads/aa.png}
-    \caption{Redosled aminokiselina u paru je važan.}
-    \label{fig:aa}
-\end{figure}
+%\begin{figure}[htbp]
+%    \centering
+%    \includegraphics[width=0.5\textwidth]{/home/djurdja/Downloads/aa.png}
+%    \caption{Redosled aminokiselina u paru je važan.}
+%    \label{fig:aa}
+%\end{figure}
 \\
 Izračunate su frekvencije svakog para aminokiselina u prelazima. Najčešće se javlja par (G, G). Pregled ostalih 19 najučestalijih parova dat je na slici \ref{fig:aafreq}.
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=1\textwidth]{/home/djurdja/Pictures/Screenshots/aafreq.png}
-    \caption{Frekvencija parova aminokiselina u retkim prelazima.}
-    \label{fig:aafreq}
-\end{figure}
+%\begin{figure}[htbp]
+%    \centering
+%    \includegraphics[width=1\textwidth]{/home/djurdja/Pictures/Screenshots/aafreq.png}
+%    \caption{Frekvencija parova aminokiselina u retkim prelazima.}
+%    \label{fig:aafreq}
+%\end{figure}
 \newpage
 Dobijeni najfrekventniji par je od posebnog interesa s obzirom na specifične karakteristike glicina. Glicin ima najvažniju ulogu u formiranju sekundarne strukture alfa heliksa zahvaljujući svojoj fleksibilnosti, koja je rezultat izuzetno malog bočnog lanca. Takođe, glicin doprinosi stabilnosti tercijalne strukture proteina \cite{dong2015glycines}. Na osnovu ovoga, može se zaključiti da se u većini retkih prelaza postiže strukturna stabilnost zahvaljujući prisustvu glicina.
 \subsection{Izdvajanje parova sekundarnih struktura koji se javljaju u neočekivanim prelazima}
