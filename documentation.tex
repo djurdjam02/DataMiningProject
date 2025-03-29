@@ -2,13 +2,11 @@
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \usepackage{amsmath}
-\usepackage{babel}
+\usepackage[serbian]{babel}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
-
 \renewcommand{\figurename}{Slika}  % Change "Figure" to "Slika"
-\renewcommand{\tablename}{Tabela} 
-
+\renewcommand{\tablename}{Tabela}
 \begin{document}
 
 \begin{titlepage}
@@ -71,7 +69,7 @@ Trodimenzionalna struktura može se opisati i korišćennjem aproksimativnih pro
     \label{Slika:1}
 \end{figure}
 
-Jedan od najpoznatijih strukturnih alfabeta jeste Proteinski blokovi (PB), koje je razvio De Brevern (2000). Proteinski blokovi se sastoji od 16 prototipova, koji su izdvojeni korišćenjem algoritama klasterovanja, Kohenonove samoorganizovajuće mape, nad fragmentima od pet uzastopnih aminokiselina kod proteina sa već poznatom strukturom. U prvom istraživanju je korišćeno 228 poznatih proteina, a kasnije je istraživanje ponovljeno nad 400 poznatih proteina. Procedura klasterovanja se odvijala u tri koraka. U prvom koraku se koristi mera sličnosti fragmenata RMSDA (eng. Root Mean Square Deviation on Angle), u drugom koraku se dodatno koristi i verovatnoća prelaska jednog fragmenta u drugi u sekvenci, dok se u trećem koraku izbacuje ograničenje verovatnoće prelaska. Na kraju je odabrano 16 proteinskih blokova, definisanih sa osam diedarskih uglova 8 diedarskih uglova, $\psi_{i-2}$, $\phi_{i-1}$, $\psi_{i-1}$, $\phi_i$, $\psi_i$, $\phi_{i+1}$, $\psi_{i+1}$, $\phi_{i+2}$ u odnosu na centralnu aminokiselinu u fragmentu dužine pet. (Tabela 1)
+Jedan od najpoznatijih strukturnih alfabeta jeste Proteinski blokovi (PB), koje je razvio De Brevern (2000). Proteinski blokovi se sastoji od 16 prototipova, koji su izdvojeni korišćenjem algoritama klasterovanja, Kohenonove samoorganizovajuće mape, nad fragmentima od pet uzastopnih aminokiselina kod proteina sa već poznatom strukturom. U prvom istraživanju je korišćeno 228 poznatih proteina, a kasnije je istraživanje ponovljeno nad 400 poznatih proteina. Procedura klasterovanja se odvijala u tri koraka. U prvom koraku se koristi mera sličnosti fragmenata RMSDA (eng. Root Mean Square Deviation on Angle), u drugom koraku se dodatno koristi i verovatnoća prelaska jednog fragmenta u drugi u sekvenci, dok se u trećem koraku izbacuje ograničenje verovatnoće prelaska. Na kraju je odabrano 16 proteinskih blokova, definisanih sa osam diedarskih uglova 8 diedarskih uglova, $\psi_{i-2}$, $\phi_{i-1}$, $\psi_{i-1}$, $\phi_i$, $\psi_i$, $\phi_{i+1}$, $\psi_{i+1}$, $\phi_{i+2}$ u odnosu na centralnu aminokiselinu u fragmentu dužine pet. (Tabela \ref{Tabela:1})
 \\
 \begin{table}[h!]
     \centering
@@ -99,15 +97,11 @@ Jedan od najpoznatijih strukturnih alfabeta jeste Proteinski blokovi (PB), koje 
 	\caption{Referentni uglovi Proteinskih blokova}
 	\label{Tabela:1}
 \end{table}
-
-Proteinski blokovi su označeni slovima od a do p (Slika~\ref{Slika:1}). Najčešći proteinski blokovi, m i d, odgovaraju redom alfa-heliksu i beta-ravni. Proteinski blokovi od k do j odgovaraju nespecificnim strukturama (eng. coil).
-
-Prevođenje u sekvencu proteinskih blokova kod proteina sa poznatom 3D strukturom odvija se tako što se svakom fragmentu uzastopnih aminokselina dužine pet dodeli jedan proteinski blok sa najmanjom vrednošću RMSDA-a. Može se desiti i da se diedralni uglovi ne mogu izračunati u tom se slučaju dodeljuje slovo Z. Na ovaj način svaka amino kiselina učestvuje u pet proteinskih blokova, osim prve i poslednje.
-
-Strukturni alfabet Proteinski blokovi se koristi i u drugim podoblastima bioinformatike kao što su nadređivanje 3D strukture proteina, istraživanje strukture proteina, definisanje mesta vezivanja, i analize lokalnih konformacija poremećenih proteina.
-
+\newpage
+Proteinski blokovi su označeni slovima od a do p (Slika~\ref{Slika:1}). Najčešći proteinski blokovi, m i d, odgovaraju redom alfa-heliksu i beta-ravni. Proteinski blokovi od k do j odgovaraju nespecificnim strukturama (eng. coil). \\
+Prevođenje u sekvencu proteinskih blokova kod proteina sa poznatom 3D strukturom odvija se tako što se svakom fragmentu uzastopnih aminokselina dužine pet dodeli jedan proteinski blok sa najmanjom vrednošću RMSDA-a. Može se desiti i da se diedralni uglovi ne mogu izračunati u tom se slučaju dodeljuje slovo Z. Na ovaj način svaka amino kiselina učestvuje u pet proteinskih blokova, osim prve i poslednje. \\
+Strukturni alfabet Proteinski blokovi se koristi i u drugim podoblastima bioinformatike kao što su nadređivanje 3D strukture proteina, istraživanje strukture proteina, definisanje mesta vezivanja, i analize lokalnih konformacija poremećenih proteina. \\
 Postoje alati koji prevode PDB fajlove u sekvence proteinskih blokova, kao što je Plxplore.
-
 \newpage
 \section{Analiza}
 U ovom poglavlju analizirani su prelazi između proteinskih blokova. Fokus analize bio je na identifikaciji neočekivanih prelaza između proteinskih blokova i proučavanju aminokiselina i sekundarnim struktura prisutnih u njima. Dodatno, ispitane su vrednosti relevantnih parametara, kao i zastupljenost pojedinačnih aminokiselina u podacima.
@@ -122,7 +116,7 @@ U nastavku je dat detaljan opis atributa:
     \item \textbf{Protein\_number} – diskretan, kategorijski i redni atribut koji označava pojedinačne proteine u skupu podataka.
     \item \textbf{res\_number} – diskretan, kategorijski i redni atribut koji označava poziciju aminokiselinskog ostatka unutar sekvence.
     \item \textbf{PB1, PB2} – diskretni, kategorijski i nominalni atributi koji predstavljaju oznake proteinskih blokova između kojih dolazi do prelaza.
-    \item \textbf{AA1, AA2} – diskretni, kategorijski i nominalni atributi koji opisuju aminokiseline prisutne u prelazu. Postoji ukupno 20 različitih vrednosti za ove atribute, u skladu sa standardnim skupom aminokiselina koje grade proteine. U tabeli \ref{table:1} prikazane su odgovarajuće jednoslovne oznake za svaku aminokiselinu.
+    \item \textbf{AA1, AA2} – diskretni, kategorijski i nominalni atributi koji opisuju aminokiseline prisutne u prelazu. Postoji ukupno 20 različitih vrednosti za ove atribute, u skladu sa standardnim skupom aminokiselina koje grade proteine. U tabeli \ref{Tabela:2} prikazane su odgovarajuće jednoslovne oznake za svaku aminokiselinu.
 \begin{table}[h!]
     \centering
 	\begin{tabular}{ |l|c| } 
@@ -171,11 +165,11 @@ U nastavku je dat detaljan opis atributa:
 	\hline
 	\end{tabular}
 	\caption{Aminokiseline i njihove jednoslovne oznake korišćene kao vrednosti atributa AA1 i AA2.}
-	\label{table:1}
+	\label{Tabela:2}
 \end{table}
 \newpage
     \item \textbf{S2\_1, S2\_2} – diskretni, kategorijski i nominalni atributi koji predstavljaju sekundarne strukture prisutne u prelazu. Vrednosti ovih atributa određene su pomoću DSSP (\textit{Dictionary of Secondary Structure of Proteins}) programa. DSSP program se koristi za dodeljivanje jednog od osam stanja sekundarne strukture aminokiselinama tako što se identifikuju vodonične veze između amino i karboksilnih grupa glavnog lanca proteina. \\
-U tabeli \ref{table:2} prikazane su oznake i odgovarajući tipovi sekundarne strukture~\cite{carter2003dsspcont}.
+U tabeli \ref{Tabela:3} prikazane su oznake i odgovarajući tipovi sekundarne strukture~\cite{carter2003dsspcont}.
 \\
 \begin{table}[h!]
     \centering
@@ -194,11 +188,11 @@ U tabeli \ref{table:2} prikazane su oznake i odgovarajući tipovi sekundarne str
     \hline
     \end{tabular}
     \caption{Sekundarne strukture proteina prema DSSP standardu, korišćene kao vrednosti atributa S2\_1 i S2\_2.}
-    \label{table:2}
+    \label{Tabela:3}
 \end{table}
 \newpage
     \item \textbf{expected\_frequency} - neprekidan, kvantitativan i razmerni atribut čija vrednost pripada intervalu [0,1] i označava očekivanu učestalost prelaza između proteinskih blokova.
-    \item \textbf{plDDT, RSA1, RSA2} – neprekidni, kvantitativni i razmerni atributi čije su vrednosti u intervalu [0,100]. Parametar pLDDT procenjuje pouzdanost predikcije lokalne strukture proteina, dok RSA1 i RSA2 predstavljaju relativnu dostupnost aminokiselinskih ostataka rastvaraču.
+    \item \textbf{pLDDT, RSA1, RSA2} – neprekidni, kvantitativni i razmerni atributi čije su vrednosti u intervalu [0,100]. Parametar pLDDT procenjuje pouzdanost predikcije lokalne strukture proteina, dok RSA1 i RSA2 predstavljaju relativnu dostupnost aminokiselinskih ostataka rastvaraču.
 \end{itemize}
 \subsubsection{Izdvajanje retkih prelaza između proteinskih blokova u podacima}
 Glavni zadatak analize bio je proučavanje prelaza između proteinskih blokova pri čemu je akcenat stavljen na neočekivane, retke prelaze. Takvi prelazi su, zbog svoje prirode, od posebnog interesa za istraživanje jer mogu doprineti novim saznanjima o nizu proteinskih blokova koji opisuje trodimenzionalnu strukturu proteina. \\
@@ -208,21 +202,21 @@ U cilju pronalaženja potencijalnih korelacija između atributa, odnosno između
 S obzirom na to da se u podacima korišćenim za ovu analizu prelazi ne nadovezuju, posmatran je pojedinačno svaki prelaz i unutar njega određen svaki par aminokiselina. Važno je napomenuti da redosled aminokiselina u paru nije irelevantan, zbog čega se parovi aminokiselina (A1, A2) ne mogu smatrati identičnim parovima (A2, A1). Kako bi ova tvrdnja bila intuitivnija i jasnija, potrebno je prvo objasniti zašto je prelaz određen sa dve aminokiseline iako su proteinski blokovi sačinjeni od 5 uzastopnih aminokiselina. \\ 
 Naime, prilikom dodeljivanja proteinskog bloka fragmentu od 5 aminokiselina, centralna aminokiselina igra ključnu ulogu  jer je ona ta koja efektivno definiše fragment i omogućava izračunavanje 8 diedarskih uglova $\psi_{i-2}$, $\phi_{i-1}$, $\psi_{i-1}$, $\phi_i$, $\psi_i$, $\phi_{i+1}$, $\psi_{i+1}$, $\phi_{i+2}$.  Ovi uglovi se zatim upoređuju sa već definisanim diedarskim uglovima prototipova proteinskih blokova nakon čega se dodeljuje odgovarajući proteinski blok. Dakle, za svaki prelaz centralna aminokiselina je najvažnija zbog njenog uticaja na ceo fragment i zato je baš ona ta koja je izabrana da bude deo podataka, odnosno da bude predstavnik u prelazu. 
 
-Imajući u vidu prethodno navedeno, obrnut redosled aminokiselina u paru može da predstavlja potpuno različit prelaz između proteinskih blokova i zato je važno analizirati ih kao zasebne parove. Slika \ref{fig:aa} prikazuje primer iz skupa podataka koji ilustruje iznesenu tvrdnju.
-%\begin{figure}[htbp]
-%    \centering
-%    \includegraphics[width=0.5\textwidth]{/home/djurdja/Downloads/aa.png}
-%    \caption{Redosled aminokiselina u paru je važan.}
-%    \label{fig:aa}
-%\end{figure}
+Imajući u vidu prethodno navedeno, obrnut redosled aminokiselina u paru može da predstavlja potpuno različit prelaz između proteinskih blokova i zato je važno analizirati ih kao zasebne parove. Slika \ref{Slika:aa} prikazuje primer iz skupa podataka koji ilustruje iznesenu tvrdnju.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.5\textwidth]{./images/aa.png}
+    \caption{Redosled aminokiselina u paru je važan.}
+    \label{Slika:aa}
+\end{figure}
 \\
-Izračunate su frekvencije svakog para aminokiselina u prelazima. Najčešće se javlja par (G, G). Pregled ostalih 19 najučestalijih parova dat je na slici \ref{fig:aafreq}.
-%\begin{figure}[htbp]
-%    \centering
-%    \includegraphics[width=1\textwidth]{/home/djurdja/Pictures/Screenshots/aafreq.png}
-%    \caption{Frekvencija parova aminokiselina u retkim prelazima.}
-%    \label{fig:aafreq}
-%\end{figure}
+Izračunate su frekvencije svakog para aminokiselina u prelazima. Najčešće se javlja par (G, G). Pregled ostalih 19 najučestalijih parova dat je na slici \ref{Slika:aafreq}.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{./images/aafreq.png}
+    \caption{Frekvencija parova aminokiselina u retkim prelazima.}
+    \label{Slika:aafreq}
+\end{figure}
 \newpage
 Dobijeni najfrekventniji par je od posebnog interesa s obzirom na specifične karakteristike glicina. Glicin ima najvažniju ulogu u formiranju sekundarne strukture alfa heliksa zahvaljujući svojoj fleksibilnosti, koja je rezultat izuzetno malog bočnog lanca. Takođe, glicin doprinosi stabilnosti tercijalne strukture proteina \cite{dong2015glycines}. Na osnovu ovoga, može se zaključiti da se u većini retkih prelaza postiže strukturna stabilnost zahvaljujući prisustvu glicina.
 \subsection{Izdvajanje parova sekundarnih struktura koji se javljaju u neočekivanim prelazima}
