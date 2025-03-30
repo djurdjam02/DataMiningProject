@@ -11,10 +11,12 @@
 
 \begin{titlepage}
     \centering
-    \vspace*{0.2cm}
-
+	\begin{figure}[htbp]
+    	\centering
+    	\includegraphics[width=0.4\textwidth]{./images/logo.png}
+	\end{figure}
     { Univerzitet u Beogradu \\ Matematički fakultet\par}
-
+	
     \vfill
 
     {\Large \textbf{Seminarski rad}\par}
@@ -168,7 +170,7 @@ U nastavku je dat detaljan opis atributa:
 	\label{Tabela:2}
 \end{table}
 \newpage
-    \item \textbf{S2\_1, S2\_2} – diskretni, kategorijski i nominalni atributi koji predstavljaju sekundarne strukture prisutne u prelazu. Vrednosti ovih atributa određene su pomoću DSSP (\textit{Dictionary of Secondary Structure of Proteins}) programa. DSSP program se koristi za dodeljivanje jednog od osam stanja sekundarne strukture aminokiselinama tako što se identifikuju vodonične veze između amino i karboksilnih grupa glavnog lanca proteina. \\
+    \item \textbf{S2\_1, S2\_2} – diskretni, kategorijski i nominalni atributi koji predstavljaju sekundarne strukture prisutne u prelazu. Vrednosti ovih atributa određene su pomoću DSSP (\textit{eng. Dictionary of Secondary Structure of Proteins}) programa. DSSP program se koristi za dodeljivanje jednog od osam stanja sekundarne strukture aminokiselinama tako što se identifikuju vodonične veze između amino i karboksilnih grupa glavnog lanca proteina. \\
 U tabeli \ref{Tabela:3} prikazane su oznake i odgovarajući tipovi sekundarne strukture~\cite{carter2003dsspcont}.
 \\
 \begin{table}[h!]
@@ -177,14 +179,14 @@ U tabeli \ref{Tabela:3} prikazane su oznake i odgovarajući tipovi sekundarne st
     \hline
     \textbf{Oznaka} & \textbf{Tip sekundarne strukture} \\
     \hline
-    H & Alfa-heliks (\textit{$\alpha$-helix}) \\
-    B & Beta-most (\textit{beta bridge}) \\
-    E & Prošireni beta list (\textit{extended beta sheet}) \\
+    H & Alfa-heliks (\textit{eng. $\alpha$-helix}) \\
+    B & Beta-most (\textit{eng. beta bridge}) \\
+    E & Prošireni beta list (\textit{eng. extended beta sheet}) \\
     G & 3(10)-heliks \\
-    I & Pi-heliks (\textit{$\pi$-heliks}) \\
-    T & Heliks okret (\textit{helix-turn}) \\
-    S & Zavojnica (\textit{bend}) \\
-    C & Nespecifična ili neorganizovana struktura (\textit{coil}) \\
+    I & Pi-heliks (\textit{eng. $\pi$-helix}) \\
+    T & Heliks okret (\textit{eng. helix-turn}) \\
+    S & Zavojnica (\textit{eng. bend}) \\
+    C & Nespecifična ili neorganizovana struktura (\textit{eng. coil}) \\
     \hline
     \end{tabular}
     \caption{Sekundarne strukture proteina prema DSSP standardu, korišćene kao vrednosti atributa S2\_1 i S2\_2.}
@@ -218,9 +220,82 @@ Izračunate su frekvencije svakog para aminokiselina u prelazima. Najčešće se
     \label{Slika:aafreq}
 \end{figure}
 \newpage
-Dobijeni najfrekventniji par je od posebnog interesa s obzirom na specifične karakteristike glicina. Glicin ima najvažniju ulogu u formiranju sekundarne strukture alfa heliksa zahvaljujući svojoj fleksibilnosti, koja je rezultat izuzetno malog bočnog lanca. Takođe, glicin doprinosi stabilnosti tercijalne strukture proteina \cite{dong2015glycines}. Na osnovu ovoga, može se zaključiti da se u većini retkih prelaza postiže strukturna stabilnost zahvaljujući prisustvu glicina.
+Dobijeni najfrekventniji par je od posebnog interesa s obzirom na specifične karakteristike glicina.
+Glicin, zbog svog malog bočnog lanca, ima ključnu ulogu u omogućavanju fleksibilnosti u proteinu. Takođe, glicin doprinosi stabilnosti tercijalne strukture proteina \cite{dong2012glycines}. S obzirom na to, njegova velika učestalost može ukazivati na stabilnost u prelazima.
 \subsection{Izdvajanje parova sekundarnih struktura koji se javljaju u neočekivanim prelazima}
+Nakon izdvajanja aminokiselina, sledeći korak u analizi bio je ispitivanje sekundarnih struktura koje se javljaju u prelazima i njihove učestalosti. Kao i u slučaju aminokiselina, izvojeni su parovi sekundarnih struktura tako da je redosled unutar svakog para važan. \\
+Sekundarna struktura proteina definiše lokalne konformacije polipeptidnog lanca koje nastaju usled interakcija između atoma kičme lanca. Najčešča klasifikacija sekundarne strukture je na $\alpha$-zavojnice i $\beta$-ploče, dok se ostale konformacije označavaju kao neregularno stanje (\textit{eng. coil}). Međutim, utvrđeno je da u proseku čak $50\%$ ostataka \cite{debrevern2010proteinblocks} kolektivno tretira kao neregularno stanje što značajno pojednostavljuje strukturu proteina i dovodi do brojnih ograničenja u njenoj analizi. To je jedan od glavnih razloga formiranja proteinskih blokova kao koncepta. \\ 
+U skladu sa tim, očekuje se da će analiza parova sekundarnih struktura u retkim prelazima između proteinskih blokova pokazati pretežnu zastupljenost neregularnih stanja, odnosno \textit{coil}, pošto sami proteinski blokovi treba što vernije da opišu upravo one konformacije koje se ne mogu jednostavno klasifikovati kao $\alpha$-zavojnice i $\beta$-ploče, niti njihove varijacije (E - \textit{extended beta sheet}, G - \textit{(10)-helix)}). \\
+Izračunate su frekvencije parova sekundarnih struktura u prelazima i na slici \ref{Slika:s2freq} su prikazani oni najučestaliji, odnosno dvadeset najučestalijih parova.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{./images/s2freq.png}
+    \caption{Frekvencija parova sekundarnih struktura u retkim prelazima.}
+    \label{Slika:s2freq}
+\end{figure}
+\\
+Rezultati analize pokazuju da su najčešće zastupljeni parovi CC (\textit{coil–coil}), SS (\textit{bend–bend}) i TT (\textit{helix-turn–helix-turn}), koji ne pripadaju klasičnim tipovima sekundarnih struktura. Ovo je u skladu sa pretpostavkom da će u retkim prelazima dominirati neregularne sekundarne strukture.
+\subsubsection{Izdvajanje kombinacija aminokiselina i sekundarnih struktura u neočekivanim prelazima}
+Pored analize parova aminokiselina i sekundarnih struktura zasebno, izvršeno je i ispitivanje njihovih kombinacija radi pronalaska međusobnih korelacija u prelazima.  \\
+Na slici \ref{Slika:aas2freq} dat je prikaz najfrekventnijih kombinacija.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{./images/aas2freq.png}
+    \caption{Frekvencija kombinacija parova aminokiselina i sekundarnih struktura u retkim prelazima.}
+    \label{Slika:aas2freq}
+\end{figure}
+\\
+Rezultati pokazuju da je daleko najzastupljenija kombinacija GG CC. Može se zaključiti da je razlog toga visok stepen fleksibilnosti glicina, koji ga može učiniti sklonijim ka formiranju neregularnih konformacija. Prethodna analiza je pokazala da su pojedinačno najzastupljeniji parovi aminokiselina i sekundarnih struktura baš glicin i neregularno stanje, što dodatno doprinosi tvrdnji da postoji visoka korelisanost kako između njih tako i između njih i proteinskih blokova koji čine prelaz.
 \subsection{Analiza vrednosti pLDDT parametra}
+pLDDT (\textit{eng. the predicted local distance difference test}) predstavlja meru pouzdanost lokalne strukture proteina, predviđene AlphaFold2 programom. Vrednosti su na skali od 0 do 100, pri čemu veće vrednosti ukazuju na visoku pouzdanost i precizniju predikciju. \\
+Vrednosti pLDDT veće od 90 se kategorišu kao najveća preciznost i tada se smatra da su i kičma i bočni lanci proteina predviđeni sa visokom preciznošću. Nasuprot tome, vrednosti ispod 70 tipično ukazuju na ispravno predviđenu kičmu, ali sa mogućim greškama u predikciji bočnih lanaca. \\
+Važno je napomenuti da pLDDT vrednost može značajno varirati duž proteinskog lanca. S obzirom da se ova mera odnosi se na pojedinačne regione strukture, određeni segmenti mogu biti predviđeni s visokom pouzdanošću, dok drugi mogu imati nisku prediktivnu tačnost. \\
+Niska pLDDT vrednost u određenim oblastima proteina može biti posledica više faktora. Najčešći uzroci su visoka fleksibilnost regiona ili odsustvo dobro definisane strukture. Takođe, moguće je da oblast ima stabilnu strukturu, ali da nedostaju relevantni podaci neophodni za pouzdanu predikciju pomoću AlphaFold2 programa. U oba slučaja, ovakvim oblastima se obično pridružuje pLDDT vrednost ispod 50.\\ 
+Na slici \ref{Slika:plddt} prikazan je primer strukture proteina sa određenim pLDDT vrednostima.
+\begin{figure}[htbp]
+    	\centering
+    	\includegraphics[width=0.7\textwidth]{./images/plddt.png}
+    	\caption{Prosečna pLDDT vrednost za protein Chloramphenicol acetyltransferase iznosi 96.28.}
+    	\label{Slika:plddt}
+\end{figure}
+\\
+Glavni cilj ovog dela analize je upravo bio ispitivanje prirode vrednosti pLDDT mere u podacima.
+\newpage
+\subsubsection{Vrednosti pLDDT u opštem slučaju}
+Ispitivanje vrednosti pLDDT u opštem slučaju podrazumeva analiziranje vrednosti ove mere na celom skupu podataka. Ovakva analiza omogućava donošenje zaključaka o preciznosti predikcija lokalnih struktura proteina čiji su proteinski blokovi bili predmet intraživanja u ovom radu. \\
+Radi utvrđivanja prirode posmatrane mere, najpre je konstruisan histogram vrednosti pLDDT. Prikaz histograma je dat na slici \ref{Slika:distribution}.
+\begin{figure}[htbp]
+    	\centering
+    	\includegraphics[width=0.8\textwidth]{./images/dist_dataset.png}
+    	\caption{Histogram raspodele pLDDT vrednosti u celom skupu podataka}
+    	\label{Slika:distribution}
+\end{figure}
+\\
+Raspodela pokazuje izraženu asimetričnost, sa dominantnim vrhom u intervalu 30–40 i dugim desnim repom. Ovakav oblik raspodele sugeriše da može biti aproksimirana gama raspodelom ili nekom drugom asimetričnom raspodelom. Dodatno, primećuje se manja frekvencija pLDDT vrednosti u višem opsegu (iznad 70), što može ukazivati na retkost visoko pouzdanih predikcija u opštem slučaju. \\
+Za preciznije ispitivanje raspodele, potrebno je izračunati osnovne deskriptivne statistike. Srednja vrednost iznosi približno 37.6, 0.75 kvantil 39.6, dok maksimalna pLDDT vrednost koja se javlja u skupu iznosi 98.95. Vrednost ostalih statistika dat je u tabeli \ref{Tabela:4}.
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{ |l|l| } 
+    \hline
+    \textbf{Deskriptivna statistika} & \textbf{pLDDT} \\
+    \hline
+    mean & 37.586782 \\
+    std  & 13.145442 \\
+    min  & 5.920000 \\
+    $25\%$  & 30.540001 \\
+    $50\%$   & 34.570000 	\\
+    $75\%$ & 39.570000 	 \\
+    max & 98.949997 	\\
+    \hline
+    \end{tabular}
+    \caption{Osnovne deskriptivne statistike za pLDDT parametar.}
+    \label{Tabela:4}
+\end{table}
+\newpage
+Zaključak je da se u opštem slučaju najčešće javljaju veoma niske pLDDT vrednosti što ukazuje na nizak sveukupni kvalitet predviđenih lokalnih struktura proteina. Međutim, maksimalna vrednost pLDDT-a sugeriše na to da za određene proteine postoje delovi strukture koji su predviđeni sa visokim stepenom preciznosti.
+\subsubsection{Vrednosti pLDDT prema proteinskim blokovima}
+\subsubsection{Vrednosti pLDDT prema aminokiselinama}
+\subsubsection{Vrednosti pLDDT prema sekundarnim strukturama}
 \subsection{Analiza vrednosti RSA parametra}
 \subsection{Ispitivanje zastupljenosti aminokiselina u podacima}
 \newpage
@@ -235,9 +310,17 @@ Dobijeni najfrekventniji par je od posebnog interesa s obzirom na specifične ka
     Phil Carter, Claus A. F. Andersen, Burkhard Rost. 
     \textit{DSSPcont: Continuous Secondary Structure Assignments for Proteins}. 
     Bioinformatics, 19(2):230-231, 2003.
-    \bibitem{dong2015glycines} 
-    Hao Dong, Mukesh Sharma, Huan-Xiang Zhou, Timothy A Cross. 
-    \textit{Glycines: Role in $\alpha$-Helical Membrane Protein Structures and a Potential Indicator for Native Conformation}. 
-    Biophysical Journal, 109(1):1-8, 2015.
+    \bibitem{dong2012glycines}
+    Hao Dong, Mukesh Sharma, Huan-Xiang Zhou, Timothy A. Cross.  
+    \textit{Glycines: Role in $\alpha$-Helical Membrane Protein Structures and a Potential Indicator for Native Conformation}.  
+    Biochemistry, 51(26): 5299-5307, 2012.  
+    PMCID: PMC3426646, NIHMSID: NIHMS383776, PMID: 22650985.
+    \bibitem{debrevern2010proteinblocks} 
+    Agnel Praveen Joseph, Garima Agarwal, Swapnil Mahajan, 
+    Jean-Christophe Gelly, Lakshmipuram S. Swapna, Bernard Offmann, 
+    Frédéric Cadet, Aurélie Bornot, Manoj Tyagi, Hélène Valadié, Bohdan Schneider, 
+    Catherine Etchebest, Narayanaswamy Srinivasan, Alexandre G. de Brevern.  
+    \textit{A short survey on protein blocks}.  
+    Biophysical Reviews, 2(3):137–147, 2010.
 \end{thebibliography}
 \end{document}
