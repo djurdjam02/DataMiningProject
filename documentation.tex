@@ -2,7 +2,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \usepackage{amsmath}
-\usepackage[serbian]{babel}
+\usepackage{babel}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \renewcommand{\figurename}{Slika}  % Change "Figure" to "Slika"
@@ -47,12 +47,12 @@
 \tableofcontents
 \newpage
 \section{Uvod}
-Proteini su osnovni gradivni blokovi svih ćelija u organizmu i kao takvi igraju ključnu ulogu u održavanju života, reprodukciji, odbrani i replikaciji. Sve funkcije proteina zavise od njihove strukture, zbog čega je analiza strukture proteina od izuzetnog značaja u bioinformatičkim i biohemijskim istraživanjima.\\
+Proteini su osnovni gradivni blokovi svih ćelija u organizmu i kao takvi igraju ključnu ulogu u održavanju života, reprodukciji, odbrani i replikaciji. Funkcije proteina zavise od njihove strukture, zbog čega je analiza strukture proteina od izuzetnog značaja u bioinformatičkim i biohemijskim istraživanjima.\\
 \\
 U nastojanju da se postigne precizniji, detaljniji i informativniji prikaz trodimenzionalne strukture proteina, razvijeni su proteinski blokovi. Kao jedni od najistaknutijih predstavnika strukturnih alfabeta, pokazano je da omogućavaju detekciju strukturne sličnosti između proteina sa izuzetnom efikasnošću.\\
 \\
 Ovaj seminarski rad se fokusira na proteinske blokove, sa posebnim akcentom na retke i neočekivane prelaze između njih. Niz proteinskih blokova dobijen je analizom humanog proteoma, koji je generisan pomoću AlphaFold2 programa. Seminarski rad se sastoji od tri ključna segmenta: analize, klasifikacije i klasterovanja proteinskih blokova.\\
-Analiza obuhvata izdvajanje aminokiselina i sekundarnih struktura u retkim prelazima, određivanje prirode vrednosti pLDDT (\textit{the predicted local distance difference test}) i RSA (\textit{relative solvent accessibility}) parametara, kao i poređenje zastupljenosti pojedinačnih aminokiselina u podacima u odnosu na očekivane procente. \\
+Analiza obuhvata izdvajanje aminokiselina i sekundarnih struktura u retkim prelazima, određivanje prirode vrednosti pLDDT (eng. \textit{the predicted local distance difference test}) i RSA (eng. \textit{relative solvent accessibility}) parametara, kao i poređenje zastupljenosti pojedinačnih aminokiselina u podacima u odnosu na očekivane procente. \\
 Klasifikacija je usredsređena na predviđanje aminokiselina i sekundarnih struktura u prelazima, kao i parova proteinskih blokova koji čine posmatrane prelaze. Ovaj pristup omogućava donošenje interesantnih zaključaka o relevantnosti, ubedljivosti i stabilnosti proteinskih blokova kao strukturnih indikatora. \\
 Klasterovanje je izvedeno nad skupom podataka koji sadrži informacije o strukturi proteina, uključujući prelaze između proteinskih blokova, kao i aminokiseline i sekundarne strukture prisutne u tim prelazima. \\
 \\
@@ -71,7 +71,7 @@ Trodimenzionalna struktura može se opisati i korišćennjem aproksimativnih pro
     \label{Slika:1}
 \end{figure}
 
-Jedan od najpoznatijih strukturnih alfabeta jeste Proteinski blokovi (PB), koje je razvio De Brevern (2000). Proteinski blokovi se sastoji od 16 prototipova, koji su izdvojeni korišćenjem algoritama klasterovanja, Kohenonove samoorganizovajuće mape, nad fragmentima od pet uzastopnih aminokiselina kod proteina sa već poznatom strukturom. U prvom istraživanju je korišćeno 228 poznatih proteina, a kasnije je istraživanje ponovljeno nad 400 poznatih proteina. Procedura klasterovanja se odvijala u tri koraka. U prvom koraku se koristi mera sličnosti fragmenata RMSDA (eng. Root Mean Square Deviation on Angle), u drugom koraku se dodatno koristi i verovatnoća prelaska jednog fragmenta u drugi u sekvenci, dok se u trećem koraku izbacuje ograničenje verovatnoće prelaska. Na kraju je odabrano 16 proteinskih blokova, definisanih sa osam diedarskih uglova 8 diedarskih uglova, $\psi_{i-2}$, $\phi_{i-1}$, $\psi_{i-1}$, $\phi_i$, $\psi_i$, $\phi_{i+1}$, $\psi_{i+1}$, $\phi_{i+2}$ u odnosu na centralnu aminokiselinu u fragmentu dužine pet. (Tabela \ref{Tabela:1})
+Jedan od najpoznatijih strukturnih alfabeta jeste Proteinski blokovi (PB), koje je razvio De Brevern (2000). Proteinski blokovi se sastoji od 16 prototipova, koji su izdvojeni korišćenjem algoritama klasterovanja, Kohenonove samoorganizovajuće mape, nad fragmentima od pet uzastopnih aminokiselina kod proteina sa već poznatom strukturom. U prvom istraživanju je korišćeno 228 poznatih proteina, a kasnije je istraživanje ponovljeno nad 400 poznatih proteina. Procedura klasterovanja se odvijala u tri koraka. U prvom koraku se koristi mera sličnosti fragmenata RMSDA (eng. Root Mean Square Deviation on Angle), u drugom koraku se dodatno koristi i verovatnoća prelaska jednog fragmenta u drugi u sekvenci, dok se u trećem koraku izbacuje ograničenje verovatnoće prelaska. Na kraju je odabrano 16 proteinskih blokova, definisanih sa osam diedarskih uglova, $\psi_{i-2}$, $\phi_{i-1}$, $\psi_{i-1}$, $\phi_i$, $\psi_i$, $\phi_{i+1}$, $\psi_{i+1}$, $\phi_{i+2}$ u odnosu na centralnu aminokiselinu u fragmentu dužine pet. (Tabela \ref{Tabela:1})
 \\
 \begin{table}[h!]
     \centering
@@ -101,7 +101,7 @@ Jedan od najpoznatijih strukturnih alfabeta jeste Proteinski blokovi (PB), koje 
 \end{table}
 \newpage
 Proteinski blokovi su označeni slovima od a do p (Slika~\ref{Slika:1}). Najčešći proteinski blokovi, m i d, odgovaraju redom alfa-heliksu i beta-ravni. Proteinski blokovi od k do j odgovaraju nespecificnim strukturama (eng. coil). \\
-Prevođenje u sekvencu proteinskih blokova kod proteina sa poznatom 3D strukturom odvija se tako što se svakom fragmentu uzastopnih aminokselina dužine pet dodeli jedan proteinski blok sa najmanjom vrednošću RMSDA-a. Može se desiti i da se diedralni uglovi ne mogu izračunati u tom se slučaju dodeljuje slovo Z. Na ovaj način svaka amino kiselina učestvuje u pet proteinskih blokova, osim prve i poslednje. \\
+Prevođenje u sekvencu proteinskih blokova kod proteina sa poznatom 3D strukturom odvija se tako što se svakom fragmentu uzastopnih aminokselina dužine pet dodeli jedan proteinski blok sa najmanjom vrednošću RMSDA-a. Može se desiti i da se diedralni uglovi ne mogu izračunati u tom se slučaju dodeljuje slovo Z. Na ovaj način svaka aminokiselina učestvuje u pet proteinskih blokova, osim prve i poslednje. \\
 Strukturni alfabet Proteinski blokovi se koristi i u drugim podoblastima bioinformatike kao što su nadređivanje 3D strukture proteina, istraživanje strukture proteina, definisanje mesta vezivanja, i analize lokalnih konformacija poremećenih proteina. \\
 Postoje alati koji prevode PDB fajlove u sekvence proteinskih blokova, kao što je Plxplore.
 \newpage
@@ -298,6 +298,66 @@ Zaključak je da se u opštem slučaju najčešće javljaju veoma niske pLDDT vr
 \subsubsection{Vrednosti pLDDT prema sekundarnim strukturama}
 \subsection{Analiza vrednosti RSA parametra}
 \subsection{Ispitivanje zastupljenosti aminokiselina u podacima}
+
+Kodon je triplet nukleotida, odnosno tri uzastopna nukleotida mRNK. Kodoni predstavljaju šifre za aminokiseline. Jedna aminokiseline moze biti kodirana jednim kodonom ili sa više kodona. Aminokiseline se dalje kombinuju i kreiraju proteine. Postoje regioni u kodu proteina gde sastav aminokiselina nije od značaja, ali se neke aminokiseline pojavljuju više od drugih. Postavlja se pitanje da li je to slučajno ili postoji neki razlog koji objašnjava prezastupljenost određenih aminokiselina. 
+Određivanje prezastupljenosti i podzastupljenosti aminokiselina vršeno je poređenjem frekvencije aminokiseline u podacima sa očekivanim vrednostima frekvencija. Očekivane vrednosti frekvencije  kodona računaju se množenjem prirodnih frekvencija svake DNK baze koja čini kodon, gde se frekvencije u prirodi za uracil 22\%, citozin 21.7\%, guanin 26.1\% i adeninn 30.3\%. Zatim se očekivana vrednost frekvencije aminokiseline dobija kao suma očekivanih vrednosti svih kodona koji kodiraju tu aminokiselinu. Kako postoje tri kodona koji ne kodiraju aminokiseline već su stop ili nonsense kodoni, prethodnu sumu treba pomnožiti faktorom korekcije 1.057.
+
+
+\begin{table}[htbp]
+    \centering
+    \resizebox{\textwidth}{!}{
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{Aminokiseline} & \textbf{Kodoni} & \textbf{Posmatrana zastupljenost kod kičmenjaka} \\
+        \hline
+        Alanine & GCU, GCA, GCC, GCG & 7.4\% \\ \hline
+        Arginine & CGU, CGA, CGC,CGG, AGA, AGG & 4.2\%  \\ \hline
+        Asparagine & AAU, AAC & 4.4\% \\ \hline
+        Aspartic Acid & GAU, GAC & 5.9\% \\ \hline
+        Cysteine & UGU, UGC & 3.3\% \\ \hline
+        Glutamic Acid & GAA, GAG & 5.8\% \\ \hline
+        Glutamine & CAA, CAG & 3.7\% \\ \hline
+        Glycine & GGU, GGA, GGC, GGG & 7.4\% \\ \hline
+        Histidine & CAU, CAC & 2.9\% \\ \hline
+        Isoleucine & AUU, AUA, AUC & 3.8\% \\ \hline
+        Leucine & CUU, CUA, CUC, CUG, UUA, UUG & 7.6\% \\ \hline
+        Lysine & AAA, AAG & 7.2\% \\ \hline
+        Methionine & AUG & 1.8\% \\ \hline
+        Phenylalanine & UUU, UUC & 4.0\% \\ \hline
+        Proline & CCU, CCA, CCC, CCG & 5.0\% \\ \hline
+        Serine & UCU, UCA, UCC, UCG, AGU, AGC & 8.1\% \\ \hline
+        Threonine & ACU, ACA, ACC, ACG & 6.2\% \\ \hline
+        Tryptophan & UGG & 1.3\% \\ \hline
+        Tyrosine & UAU, UAC & 3.3\% \\ \hline
+        Valine & GUU, GUA, GUC, GUG & 6.8\% \\ \hline
+        Stop Codons & UAA, UAG, UGA & --- \\ \hline
+    \end{tabular}
+    }
+    \caption{}
+    \label{Tabela:5}
+\end{table}
+
+Posmatrane frekvencije aminokiselina izračunate su prebrojavanjem svih aminokiselina koje se javljaju u prelazima, računajući i atribut AA1 i atribut AA2, i njihovim deljenjem sa ukupnim brojem prelaza.
+U našoj analizi retkih prelaza između proteinski blokova dobijeno je da je većina aminokiseline prezastupljena, jedine koje su blago podzastupljene su C, F, W, Y. Zanimljivo je da je prezastupljenost vrlo izražena kod nekih aminokisline kao što su G i S je zastupljenost više nego duplo veća. (Slika 8)
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{./images/aafreq.barplot.png}
+    \caption{Poređenje izračunatih i referentnih zastupljenosti aminokiselina}
+    \label{Slika:aafreq.barplot}
+\end{figure}
+
+Očekivano je da korelacije između očekivanih i posmatranih frekvencija bude visoka, ali u našem radu to nije slučaj.(Slika 9)
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.6\textwidth]{./images/obsvsexp.png}
+    \caption{Poređenje izračunatih i referentnih zastupljenosti aminokiselina}
+    \label{Slika:obsvsexp}
+\end{figure}
+
+
 \newpage
 \section{Klasifikacija}
 \newpage
