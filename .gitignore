@@ -8,3 +8,4 @@ documentation.toc
 missfont.log
 documentation.fdb_latexmk
 documentation.fls
+*.h5
