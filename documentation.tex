@@ -631,6 +631,85 @@ gde je:
     \item $N_i$ --- broj primera koji pripadaju klasi $i$.
 \end{itemize}
 
+\subsubsection*{Aminokiseline}
+
+Rezultati pokazuju izuzetno nisku tačnost, odziv (recall) i F1-meru na test i trening skupu, dok je preciznost (precision) relativno visoka ($\sim$0.63). Ovo može ukazivati na neravnotežu klasa u skupu podataka, gde model nauči da klasifikuje samo dominantnu klasu.
+
+\bigskip
+\begin{itemize}
+    \item \textbf{Tačnost (Accuracy)} je niska na oba skupa ($\sim$2--2.5\%), što znači da je model uspešan samo u malom broju slučajeva.
+    \item \textbf{Odziv (Recall)} je takođe nizak, što znači da model propušta većinu pozitivnih primera.
+    \item \textbf{Preciznost (Precision)} je relativno visoka --- kada god model klasifikuje neku instancu kao pozitivnu, uglavnom je u pravu, ali to radi vrlo retko.
+\end{itemize}
+S obzirom da su metrike na trening i test skupu veoma slične, možemo zaključiti da nema značajnog preprilagođavanja. Model se ponaša jednako loše na oba skupa.
+
+\begin{table}[h!]
+    \centering
+    \caption{Evaluacija modela na test i trening skupu za parove aminokiselina}
+    \begin{tabular}{l|cc}
+    \textbf{Metrička vrednost} & \textbf{Test skup} & \textbf{Trening skup} \\
+    \hline
+    Tačnost (Accuracy)   & 0.0227   & 0.0255 \\
+    Preciznost (Precision) & 0.6285   & 0.6292 \\
+    Odziv (Recall)        & 0.0227   & 0.0255 \\
+    F1 mera (F1 Score)     & 0.0103   & 0.0122 \\
+    \end{tabular}
+\end{table}
+
+\subsubsection*{Proteinski blokovi}
+
+Rezultati pokazuju da model ostvaruje visoku tačnost, odziv, F1-meru i preciznost na oba skupa, što ukazuje na efikasnu klasifikaciju proteinskih blokova. Vrednosti metrika su gotovo identične na test i trening skupu, što znači da nema izraženog preprilagođavanja.
+
+
+\begin{table}[h!]
+\centering
+\caption{Evaluacija modela na test i trening skupu za parove proteinskih blokova}
+\begin{tabular}{l|cc}
+\textbf{Metrička vrednost} & \textbf{Test skup} & \textbf{Trening skup} \\
+\hline
+Tačnost (Accuracy)     & 0.9418 & 0.9427 \\
+Preciznost (Precision) & 0.9606 & 0.9613 \\
+Odziv (Recall)         & 0.9418 & 0.9427 \\
+F1 mera (F1 Score)     & 0.9472 & 0.9481 \\
+\end{tabular}
+\end{table}
+
+\bigskip
+
+\begin{itemize}
+    \item \textbf{Tačnost (Accuracy)} je visoka ($\sim$94.2\%) na oba skupa, što ukazuje na generalno uspešnu klasifikaciju većine uzoraka.
+    \item \textbf{Preciznost (Precision)} i \textbf{odziv (Recall)} su uravnoteženi, što znači da model uspešno prepoznaje većinu pozitivnih primera, uz minimalan broj lažnih pozitivnih.
+    \item \textbf{F1 mera} potvrđuje ravnotežu između odziva i preciznosti.
+\end{itemize}
+
+\subsubsection*{Sekundarne strukture}
+
+Prikazane metrike modela na test i trening skupu ukazuju na umereno dobar učinak, sa značajnim neskladom između preciznosti i odziva (recall).
+
+\begin{table}[h!]
+\centering
+\caption{Evaluacija modela na test i trening skupu za parove }
+\begin{tabular}{l|cc}
+\textbf{Metrička vrednost} & \textbf{Test skup} & \textbf{Trening skup} \\
+\hline
+Tačnost (Accuracy)     & 0.4251 & 0.4252 \\
+Preciznost (Precision) & 0.8489 & 0.8488 \\
+Odziv (Recall)         & 0.4251 & 0.4252 \\
+F1 mera (F1 Score)     & 0.5540 & 0.5536 \\
+\end{tabular}
+\end{table}
+
+\bigskip
+
+Rezultati pokazuju da model ima visoku preciznost (~0.85), što znači da je većina klasifikacija pozitivnih primera tačna, ali je odziv (recall) nizak (~0.43), što ukazuje da model propušta veliki broj stvarnih pozitivnih primera.
+
+\begin{itemize}
+    \item \textbf{Tačnost (Accuracy)} od oko 42.5\% ukazuje na umereno dobru ukupnu preciznost klasifikacije.
+    \item \textbf{Nesklad između visoke preciznosti i niskog odziva} može ukazivati na neuravnoteženost klasa ili na to da model često izostavlja pozitivne slučajeve.
+    \item \textbf{F1 mera} od oko 0.55 pokazuje da postoji prostor za poboljšanje u balansu između preciznosti i odziva.
+\end{itemize}
+S obzirom da su metrike na test i trening skupu veoma slične, nema indikacija o značajnom preprilagođavanju.
+
 
 \subsection{Neuronske mreže}
 
