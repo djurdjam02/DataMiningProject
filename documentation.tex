@@ -2,12 +2,14 @@
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \usepackage{amsmath}
-\usepackage[serbian]{babel}
+\usepackage{babel}
 \usepackage{url}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \renewcommand{\figurename}{Slika}  % Change "Figure" to "Slika"
 \renewcommand{\tablename}{Tabela}
+\renewcommand{\contentsname}{Sadržaj}
+
 \begin{document}
 
 \begin{titlepage}
@@ -571,6 +573,67 @@ Očekivano je da korelacije između očekivanih i posmatranih frekvencija bude v
 
 \newpage
 \section{Klasifikacija}
+Algoritmi klasifikacije se u mašinskom učenju koriste za predviđanje ciljnog atributa, klase, na osnovu ostalih atributa. U našem primeru vršimo klasifikaciju za tri različite ciljne promenljive, parove aminokiselina, parove sekundarnih struktura i parove proteinskih blokova na prelazima.
+
+Kako se bavimo prelazima i parovima na njima najpre je neophodno da izvršimo konkatenaciju određenih kolona i napravimo novu kolonu koja će služiti kao ciljna promenljiva. Vrednosti iz prve i druge kolone su konkatenirane uz očuvanje redosleda (npr. 'jb' nije isto što i 'bj').
+
+\subsection{Balansiranost klasa}
+Kod problema klasifikacije podataka važno je proveriti balansiranost klasa, odnosno da li se sve klase ravnomerno javljaju ili postoje neke koje su zastupljenije. U slučaju da postoje klase koje su značajno brojnije od drugih može doći do pristrasnosti tim klasama i zanemarivanju ređih klasa, što dovodi do lošije preciznosti modela.
+\\
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{./images/aa_imbalance.png}
+    \caption{Balansiranost klasa za parove aminokiselina.}
+    \label{Slika:aa_imbalance}
+\end{figure}
+\\
+Kako je postoji 20 aminokiselina, a mi predviđamo parove aminokiselina, ukupan broj klasa je 20*20 = 400. Na slici \ref{Slika:aa_imbalance} predstavljena je raspodela klasa aminokiselina.
+Kao što se može videti na slici, distribucija učestalosti ovih klasa pokazuje izrazitu nebalansiranost. Većina primera pripada manjem broju najčešćih klasa, dok veliki broj kombinacija ima relativno mali broj instanci, pa čak i ispod 100 ponavljanja. Posebno je izazovno u ovom slučaju to što se radi o velikom broju klasa (400), što dodatno otežava balansiranje i evaluaciju.
+\\
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{./images/pb_imbalance.png}
+    \caption{Balansiranost klasa za parove proteinskih blokova.}
+    \label{Slika:pb_imbalance}
+\end{figure}
+
+U slučaju kada je ciljna promenljiva kombinacije parova proteinskih blokova, kojih u skupu podataka ima ukupno 152. Histogram prikazuje izrazitu nebalansiranost u raspodeli ovih klasa (Slika \ref{Slika:pb_imbalance}). Nekoliko najfrekventnijih kombinacija pojavljuje se i preko 100.000 puta, dok se velika većina ostalih klasa javlja sa znatno manjom učestalošću, od nekoliko stotina do čak ispod 100.
+\\
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{./images/ss_imbalance.png}
+    \caption{Balansiranost klasa za parove sekundarnih struktura.}
+    \label{Slika:ss_imbalance}
+\end{figure}
+U slučaju kombinacija sekundarnih struktura, pri čemu je ukupno identifikovano 65 različitih kombinacija, vizuelna analiza raspodele klasa (prikazana na slici \ref{Slika:ss_imbalance}) ukazuje na ekstremnu nebalansiranost. Jedna jedina klasa dominira skupom sa preko 500.000 instanci, dok su ostale klase višestruko manje zastupljene — mnoge sa frekvencijom manjom od 10.000, a neke i blizu nule.
+\\
+
+
+Ovakva distribucija je tipična za biološke podatke, gde određene strukturne konfiguracije imaju prirodno dominantniju ulogu. Međutim, iz perspektive učenja modela, ovolika razlika u broju primera po klasi može izazvati značajnu pristrasnost prilikom treniranja klasifikatora, jer dominantna klasa može preuzeti "težinu" u učenju i prouzrokovati značajnu pristrasnost modela, čime se tačnost predikcija za ređe klase drastično smanjuje. U takvom okruženju, model koji samo predviđa najčešću klasu može imati visoku ukupnu tačnost, ali loše performanse na nivou klasa, što se posebno vidi u metrikama kao što su \textit{recall}.
+\\
+
+\subsection{CatBoost}
+
+CatBoost je savremeni algoritam za mašinsko učenje baziran na gradijentnom buđenju stabala (eng. gradient boosting on decision trees), razvijen od strane kompanije Yandex. Osmišljen je sa ciljem da poboljša efikasnost i tačnost u radu sa strukturisanim podacima, posebno u scenarijima gde su prisutne i numeričke i kategorijske promenljive. Za razliku od drugih popularnih implementacija kao što su XGBoost i LightGBM, CatBoost ima ugrađenu podršku za direktno korišćenje kategorijskih promenljivih bez potrebe za njihovom prethodnom transformacijom u numerički format (npr. putem one-hot enkodiranja), čime se pojednostavljuje priprema podataka i smanjuje mogućnost preprilagođavanja.
+
+Prilikom treniranja modela korišćen je parametar \texttt{auto\_class\_weights=\textquotesingle Balanced\textquotesingle}, koji omogućava CatBoost algoritmu da automatski izračuna težine za svaku klasu na osnovu njihove učestalosti u skupu podataka. Ova tehnika se koristi za ublažavanje uticaja nebalansiranosti klasa, pri čemu ređe klase dobijaju veću težinu tokom treniranja, čime se smanjuje pristrasnost modela prema češće zastupljenim klasama.
+
+Težina $w_i$ za svaku klasu $i$ računa se po sledećoj formuli:
+
+\[
+w_i = \frac{N}{k \cdot N_i}
+\]
+
+gde je:
+\begin{itemize}
+    \item $N$ --- ukupan broj primera u skupu podataka,
+    \item $k$ --- broj različitih klasa,
+    \item $N_i$ --- broj primera koji pripadaju klasi $i$.
+\end{itemize}
+
+
+\subsection{Neuronske mreže}
+
 \newpage
 \section{Klasterovanje}
 \newpage
