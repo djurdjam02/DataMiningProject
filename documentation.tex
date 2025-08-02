@@ -656,6 +656,13 @@ S obzirom da su metrike na trening i test skupu veoma slične, možemo zaključi
     \end{tabular}
 \end{table}
 
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{./images/conf_mat_aa.png}
+    \caption{Matrica konfuzije za parove aminokiselina.}
+    \label{Slika:confmataa}
+\end{figure}
+
 \subsubsection*{Proteinski blokovi}
 
 Rezultati pokazuju da model ostvaruje visoku tačnost, odziv, F1-meru i preciznost na oba skupa, što ukazuje na efikasnu klasifikaciju proteinskih blokova. Vrednosti metrika su gotovo identične na test i trening skupu, što znači da nema izraženog preprilagođavanja.
@@ -674,13 +681,23 @@ F1 mera (F1 Score)     & 0.9472 & 0.9481 \\
 \end{tabular}
 \end{table}
 
-\bigskip
 
 \begin{itemize}
     \item \textbf{Tačnost (Accuracy)} je visoka ($\sim$94.2\%) na oba skupa, što ukazuje na generalno uspešnu klasifikaciju većine uzoraka.
     \item \textbf{Preciznost (Precision)} i \textbf{odziv (Recall)} su uravnoteženi, što znači da model uspešno prepoznaje većinu pozitivnih primera, uz minimalan broj lažnih pozitivnih.
     \item \textbf{F1 mera} potvrđuje ravnotežu između odziva i preciznosti.
 \end{itemize}
+
+\bigskip
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{./images/conf_mat_pb.png}
+    \caption{Matrica konfuzije za parove proteinskih blokova.}
+    \label{Slika:confmatpb}
+\end{figure}
+
 
 \subsubsection*{Sekundarne strukture}
 
@@ -710,8 +727,74 @@ Rezultati pokazuju da model ima visoku preciznost (~0.85), što znači da je ve�
 \end{itemize}
 S obzirom da su metrike na test i trening skupu veoma slične, nema indikacija o značajnom preprilagođavanju.
 
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{./images/conf_mat_ss.png}
+    \caption{Matrica konfuzije za parove sekundarnih struktura.}
+    \label{Slika:confmatss}
+\end{figure}
 
 \subsection{Neuronske mreže}
+
+Neuronske mreže predstavljaju klasu modela koji se inspirišu strukturom i funkcionisanjem bioloških neuronskih sistema. Njihova moć ogleda se u sposobnosti da modeluju kompleksne i nelinearne odnose u podacima, što ih čini pogodnim za širok spektar zadataka u klasifikaciji, regresiji i obradi nestrukturiranih podataka. Posebno su uspešne u višeklasnoj klasifikaciji, pod uslovom da je ulazni prostor pravilno pripremljen.
+
+\subsubsection*{Priprema podataka}
+Ciljna promenljiva, koja je inicijalno sadržila kategoričke oznake klasa, transformisana je u numeričke vrednosti korišćenjem klase \texttt{LabelEncoder} iz biblioteke \texttt{scikit-learn}. Ova transformacija omogućava jednoznačno mapiranje svake klase na pripadajuću celobrojnu oznaku.
+
+Ulazne promenljive podeljene su na numeričke i kategoričke kolone. Kategoričke promenljive su kodirane tehnikom \textit{One-Hot} kodiranja, gde se svaka diskretna vrednost reprezentuje binarnim vektorom. Numeričke kolone su standardizovane tako da imaju nultu srednju vrednost i jediničnu standardnu devijaciju, čime se obezbeđuje ujednačen doprinos svih numeričkih osobina.
+
+Zbog izražene nebalansiranosti među klasama ciljne promenljive, bilo je neophodno primeniti metod za balansiranje. Korišćena je funkcija \texttt{compute\_class\_weight} sa parametrom \texttt{'balanced'}, koja automatski izračunava težine svake klase inverzno proporcionalno njenoj učestalosti u skupu za trening. Dobijene težine se kasnije prosleđuju modelu kao dodatni parametar kako bi se kompenzovala prekomerna zastupljenost dominantnih klasa i omogućilo pravičnije učenje.
+
+\subsubsection*{Formiranje modela}
+
+Model veštačke neuronske mreže konstruisan je korišćenjem biblioteke \texttt{Keras}, sa ciljem klasifikacije podataka u više klasa. Arhitektura modela sastoji se od dva skrivena sloja, pri čemu prvi sloj sadrži 128, a drugi 64 neurona, oba sa ReLU aktivacionom funkcijom. Radi smanjenja mogućnosti preprilagođavanja (\textit{overfitting}), između slojeva su uključeni Dropout slojevi sa stopom izostavljanja od 30\%. Izlazni sloj koristi \texttt{softmax} aktivacionu funkciju, što omogućava višeklasnu klasifikaciju.
+
+Model je kompajliran korišćenjem Adam optimizatora sa unapred definisanom brzinom učenja, dok je funkcija greške bila \texttt{categorical\_crossentropy}, što je standardni izbor za probleme višeklasne klasifikacije. Kao mera uspešnosti modela korišćena je tačnost (\textit{accuracy}).
+
+Radi poboljšanja performansi modela, sprovedena je ručna pretraga hiperparametara (engl. \textit{manual grid search}). Istraživane su različite vrednosti broja neurona u skrivenim slojevima, stope izostavljanja (dropout), kao i vrednosti stope učenja. Evaluacija svakog modela u okviru pretrage vršena je na osnovu tačnosti na validacionom skupu, čime je odabran skup hiperparametara koji daje najbolje rezultate.
+
+\subsubsection*{Aminokiseline}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1.2\textwidth]{images/epochs_aa.png}
+    \caption{Prikaz preciznosti (levo) i gubitka (desno) tokom epoha za najbolji model pronađen Grid pretragom}
+    \label{fig:accuracy_loss}
+\end{figure}
+
+Na slici \ref{fig:accuracy_loss} prikazana je promena tačnosti i funkcije greške modela tokom 20 epoha treniranja. Može se uočiti da se tačnost modela na trening skupu postepeno povećava, dok se vrednost funkcije greške smanjuje, što ukazuje na uspešno učenje modela. Takođe, validacioni rezultati pokazuju sličan trend: preciznost na validacionom skupu ostaje viša od one na trening skupu, što sugeriše da model generalizuje dobro i ne pokazuje jasne znake preprilagođavanja (engl. \textit{overfitting}) u ovom broju epoha.
+
+Ipak, apsolutne vrednosti preciznosti su niske (ispod 4\%), što ukazuje na izazovnost klasifikacionog problema i moguću potrebu za dodatnim unapređenjem modela, kao što su optimizacija arhitekture, izbor relevantnijih osobina ili balansiranje skupa podataka na drugi način. S obzirom na veliku neravnotežu među klasama i veliki broj klasa, ovakvi rezultati su očekivani i zahtevaju dublju analizu distribucije podataka.
+
+\subsubsection*{Proteinski blokovi}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1.2\textwidth]{images/epochs_pb.png}
+    \caption{Preciznost (levo) i funkcija greške (desno) tokom epoha za klasifikaciju proteinskih blokova}
+    \label{fig:pb_accuracy_loss}
+\end{figure}
+
+Na slici \ref{fig:pb_accuracy_loss} prikazani su rezultati treniranja neuronske mreže za klasifikaciju proteinskih blokova. Model pokazuje jasan trend poboljšanja kako u pogledu tačnosti, tako i u pogledu smanjenja funkcije greške. Tačnost na trening skupu konstantno raste, dok se vrednosti funkcije greške smanjuju, što je očekivano ponašanje tokom treniranja.
+
+Zanimljivo je da model postiže znatno bolju tačnost na validacionom skupu (preko 75\% u poslednjim epohama), nego na trening skupu (oko 47\%).
+
+Trendovi funkcije greške pokazuju da validacioni gubitak brzo opada i stabilizuje se, dok trening gubitak opada sporije, što ukazuje na stabilno učenje bez znakova preprilagođavanja (engl. \textit{overfitting}) u posmatranom intervalu epoha.
+
+Ovi rezultati sugerišu da je zadatak klasifikacije proteinskih blokova uspešnije rešiv u odnosu na klasifikaciju aminokiselinskih parova, što može biti posledica boljih ulaznih reprezentacija, većih razlika među klasama ili manje izražene nebalansiranosti skupa podataka.
+
+\subsubsection*{Sekundarne strukture}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1.2\textwidth]{images/epochs_ss.png}
+    \caption{Preciznost (levo) i funkcija greške (desno) tokom epoha za klasifikaciju sekundarnih struktura}
+    \label{fig:ss_accuracy_loss}
+\end{figure}
+
+Na slici \ref{fig:ss_accuracy_loss} prikazano je praćenje tačnosti i vrednosti funkcije greške tokom epoha treniranja modela za klasifikaciju sekundarnih struktura. Za razliku od prethodnih zadataka, ovde je uočen nestabilan obrazac u metrikama validacije, preciznost validacionog skupa varira značajno kroz epohe, bez jasnog trenda poboljšanja, dok vrednosti gubitka ostaju gotovo konstantne posle početnog pada.
+
+S druge strane, trening metrika pokazuje blagi pad greške i stabilnu, ali relativno nisku tačnost. Ovakvi rezultati mogu ukazivati na nekoliko potencijalnih problema: visoka složenost samog zadatka, izražena klasa nebalansiranost ili manjak reprezentativnosti validacionog skupa.
 
 \newpage
 \section{Klasterovanje}
