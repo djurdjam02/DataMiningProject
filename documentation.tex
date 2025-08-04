@@ -2,14 +2,12 @@
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \usepackage{amsmath}
-\usepackage{babel}
+\usepackage[serbian]{babel}
 \usepackage{url}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \renewcommand{\figurename}{Slika}  % Change "Figure" to "Slika"
 \renewcommand{\tablename}{Tabela}
-\renewcommand{\contentsname}{Sadržaj}
-
 \begin{document}
 
 \begin{titlepage}
@@ -579,6 +577,8 @@ Kako se bavimo prelazima i parovima na njima najpre je neophodno da izvršimo ko
 
 \subsection{Balansiranost klasa}
 Kod problema klasifikacije podataka važno je proveriti balansiranost klasa, odnosno da li se sve klase ravnomerno javljaju ili postoje neke koje su zastupljenije. U slučaju da postoje klase koje su značajno brojnije od drugih može doći do pristrasnosti tim klasama i zanemarivanju ređih klasa, što dovodi do lošije preciznosti modela.
+Kako je postoji 20 aminokiselina, a mi predviđamo parove aminokiselina, ukupan broj klasa je 20*20 = 400. Na slici \ref{Slika:aa_imbalance} predstavljena je raspodela klasa aminokiselina.
+Kao što se može videti na slici, distribucija učestalosti ovih klasa pokazuje izrazitu nebalansiranost. Većina primera pripada manjem broju najčešćih klasa, dok veliki broj kombinacija ima relativno mali broj instanci, pa čak i ispod 100 ponavljanja. Posebno je izazovno u ovom slučaju to što se radi o velikom broju klasa (400), što dodatno otežava balansiranje i evaluaciju.
 \\
 \begin{figure}[htbp]
     \centering
@@ -586,10 +586,8 @@ Kod problema klasifikacije podataka važno je proveriti balansiranost klasa, odn
     \caption{Balansiranost klasa za parove aminokiselina.}
     \label{Slika:aa_imbalance}
 \end{figure}
-\\
-Kako je postoji 20 aminokiselina, a mi predviđamo parove aminokiselina, ukupan broj klasa je 20*20 = 400. Na slici \ref{Slika:aa_imbalance} predstavljena je raspodela klasa aminokiselina.
-Kao što se može videti na slici, distribucija učestalosti ovih klasa pokazuje izrazitu nebalansiranost. Većina primera pripada manjem broju najčešćih klasa, dok veliki broj kombinacija ima relativno mali broj instanci, pa čak i ispod 100 ponavljanja. Posebno je izazovno u ovom slučaju to što se radi o velikom broju klasa (400), što dodatno otežava balansiranje i evaluaciju.
-\\
+
+U slučaju kada je ciljna promenljiva kombinacija parova proteinskih blokova, kojih u skupu podataka ima ukupno 152, histogram prikazuje izrazitu nebalansiranost u raspodeli ovih klasa (Slika \ref{Slika:pb_imbalance}). Nekoliko najfrekventnijih kombinacija pojavljuje se i preko 100.000 puta, dok se velika većina ostalih klasa javlja sa znatno manjom učestalošću, od nekoliko stotina do čak ispod 100.
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=1\textwidth]{./images/pb_imbalance.png}
@@ -597,25 +595,21 @@ Kao što se može videti na slici, distribucija učestalosti ovih klasa pokazuje
     \label{Slika:pb_imbalance}
 \end{figure}
 
-U slučaju kada je ciljna promenljiva kombinacije parova proteinskih blokova, kojih u skupu podataka ima ukupno 152. Histogram prikazuje izrazitu nebalansiranost u raspodeli ovih klasa (Slika \ref{Slika:pb_imbalance}). Nekoliko najfrekventnijih kombinacija pojavljuje se i preko 100.000 puta, dok se velika većina ostalih klasa javlja sa znatno manjom učestalošću, od nekoliko stotina do čak ispod 100.
-\\
+U slučaju kombinacija sekundarnih struktura, pri čemu je ukupno identifikovano 65 različitih kombinacija, vizuelna analiza raspodele klasa (prikazana na slici \ref{Slika:ss_imbalance}) ukazuje na ekstremnu nebalansiranost. Jedna jedina klasa dominira skupom sa preko 500.000 instanci, dok su ostale klase višestruko manje zastupljene — mnoge sa frekvencijom manjom od 10.000, a neke i blizu nule.
+
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=1\textwidth]{./images/ss_imbalance.png}
     \caption{Balansiranost klasa za parove sekundarnih struktura.}
     \label{Slika:ss_imbalance}
 \end{figure}
-U slučaju kombinacija sekundarnih struktura, pri čemu je ukupno identifikovano 65 različitih kombinacija, vizuelna analiza raspodele klasa (prikazana na slici \ref{Slika:ss_imbalance}) ukazuje na ekstremnu nebalansiranost. Jedna jedina klasa dominira skupom sa preko 500.000 instanci, dok su ostale klase višestruko manje zastupljene — mnoge sa frekvencijom manjom od 10.000, a neke i blizu nule.
-\\
-
-
+\newpage
 Ovakva distribucija je tipična za biološke podatke, gde određene strukturne konfiguracije imaju prirodno dominantniju ulogu. Međutim, iz perspektive učenja modela, ovolika razlika u broju primera po klasi može izazvati značajnu pristrasnost prilikom treniranja klasifikatora, jer dominantna klasa može preuzeti "težinu" u učenju i prouzrokovati značajnu pristrasnost modela, čime se tačnost predikcija za ređe klase drastično smanjuje. U takvom okruženju, model koji samo predviđa najčešću klasu može imati visoku ukupnu tačnost, ali loše performanse na nivou klasa, što se posebno vidi u metrikama kao što su \textit{recall}.
-\\
+\newpage
 
 \subsection{CatBoost}
 
 CatBoost je savremeni algoritam za mašinsko učenje baziran na gradijentnom buđenju stabala (eng. gradient boosting on decision trees), razvijen od strane kompanije Yandex. Osmišljen je sa ciljem da poboljša efikasnost i tačnost u radu sa strukturisanim podacima, posebno u scenarijima gde su prisutne i numeričke i kategorijske promenljive. Za razliku od drugih popularnih implementacija kao što su XGBoost i LightGBM, CatBoost ima ugrađenu podršku za direktno korišćenje kategorijskih promenljivih bez potrebe za njihovom prethodnom transformacijom u numerički format (npr. putem one-hot enkodiranja), čime se pojednostavljuje priprema podataka i smanjuje mogućnost preprilagođavanja.
-
 Prilikom treniranja modela korišćen je parametar \texttt{auto\_class\_weights=\textquotesingle Balanced\textquotesingle}, koji omogućava CatBoost algoritmu da automatski izračuna težine za svaku klasu na osnovu njihove učestalosti u skupu podataka. Ova tehnika se koristi za ublažavanje uticaja nebalansiranosti klasa, pri čemu ređe klase dobijaju veću težinu tokom treniranja, čime se smanjuje pristrasnost modela prema češće zastupljenim klasama.
 
 Težina $w_i$ za svaku klasu $i$ računa se po sledećoj formuli:
@@ -718,7 +712,7 @@ F1 mera (F1 Score)     & 0.5540 & 0.5536 \\
 
 \bigskip
 
-Rezultati pokazuju da model ima visoku preciznost (~0.85), što znači da je većina klasifikacija pozitivnih primera tačna, ali je odziv (recall) nizak (~0.43), što ukazuje da model propušta veliki broj stvarnih pozitivnih primera.
+Rezultati pokazuju da model ima visoku preciznost ($\sim0.85$), što znači da je većina klasifikacija pozitivnih primera tačna, ali je odziv (recall) nizak ($\sim0.43$), što ukazuje da model propušta veliki broj stvarnih pozitivnih primera.
 
 \begin{itemize}
     \item \textbf{Tačnost (Accuracy)} od oko 42.5\% ukazuje na umereno dobru ukupnu preciznost klasifikacije.
@@ -743,12 +737,12 @@ Ciljna promenljiva, koja je inicijalno sadržila kategoričke oznake klasa, tran
 
 Ulazne promenljive podeljene su na numeričke i kategoričke kolone. Kategoričke promenljive su kodirane tehnikom \textit{One-Hot} kodiranja, gde se svaka diskretna vrednost reprezentuje binarnim vektorom. Numeričke kolone su standardizovane tako da imaju nultu srednju vrednost i jediničnu standardnu devijaciju, čime se obezbeđuje ujednačen doprinos svih numeričkih osobina.
 
-Zbog izražene nebalansiranosti među klasama ciljne promenljive, bilo je neophodno primeniti metod za balansiranje. Korišćena je funkcija \texttt{compute\_class\_weight} sa parametrom \texttt{'balanced'}, koja automatski izračunava težine svake klase inverzno proporcionalno njenoj učestalosti u skupu za trening. Dobijene težine se kasnije prosleđuju modelu kao dodatni parametar kako bi se kompenzovala prekomerna zastupljenost dominantnih klasa i omogućilo pravičnije učenje.
+Zbog izražene nebalansiranosti među klasama ciljne promenljive, bilo je neophodno primeniti metod za balansiranje. Korišćena je funkcija \\ \texttt{compute\_class\_weight} sa parametrom \texttt{'balanced'}, koja automatski izračunava težine svake klase inverzno proporcionalno njenoj učestalosti u skupu za trening. Dobijene težine se kasnije prosleđuju modelu kao dodatni parametar kako bi se kompenzovala prekomerna zastupljenost dominantnih klasa i omogućilo pravičnije učenje.
 
 \subsubsection*{Formiranje modela}
 
 Model veštačke neuronske mreže konstruisan je korišćenjem biblioteke \texttt{Keras}, sa ciljem klasifikacije podataka u više klasa. Arhitektura modela sastoji se od dva skrivena sloja, pri čemu prvi sloj sadrži 128, a drugi 64 neurona, oba sa ReLU aktivacionom funkcijom. Radi smanjenja mogućnosti preprilagođavanja (\textit{overfitting}), između slojeva su uključeni Dropout slojevi sa stopom izostavljanja od 30\%. Izlazni sloj koristi \texttt{softmax} aktivacionu funkciju, što omogućava višeklasnu klasifikaciju.
-
+\\
 Model je kompajliran korišćenjem Adam optimizatora sa unapred definisanom brzinom učenja, dok je funkcija greške bila \texttt{categorical\_crossentropy}, što je standardni izbor za probleme višeklasne klasifikacije. Kao mera uspešnosti modela korišćena je tačnost (\textit{accuracy}).
 
 Radi poboljšanja performansi modela, sprovedena je ručna pretraga hiperparametara (engl. \textit{manual grid search}). Istraživane su različite vrednosti broja neurona u skrivenim slojevima, stope izostavljanja (dropout), kao i vrednosti stope učenja. Evaluacija svakog modela u okviru pretrage vršena je na osnovu tačnosti na validacionom skupu, čime je odabran skup hiperparametara koji daje najbolje rezultate.
@@ -757,7 +751,7 @@ Radi poboljšanja performansi modela, sprovedena je ručna pretraga hiperparamet
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=1.2\textwidth]{images/epochs_aa.png}
+    \includegraphics[width=1\textwidth]{images/epochs_aa.png}
     \caption{Prikaz preciznosti (levo) i gubitka (desno) tokom epoha za najbolji model pronađen Grid pretragom}
     \label{fig:accuracy_loss}
 \end{figure}
@@ -770,7 +764,7 @@ Ipak, apsolutne vrednosti preciznosti su niske (ispod 4\%), što ukazuje na izaz
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=1.2\textwidth]{images/epochs_pb.png}
+    \includegraphics[width=1\textwidth]{images/epochs_pb.png}
     \caption{Preciznost (levo) i funkcija greške (desno) tokom epoha za klasifikaciju proteinskih blokova}
     \label{fig:pb_accuracy_loss}
 \end{figure}
@@ -787,7 +781,7 @@ Ovi rezultati sugerišu da je zadatak klasifikacije proteinskih blokova uspešni
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=1.2\textwidth]{images/epochs_ss.png}
+    \includegraphics[width=1\textwidth]{images/epochs_ss.png}
     \caption{Preciznost (levo) i funkcija greške (desno) tokom epoha za klasifikaciju sekundarnih struktura}
     \label{fig:ss_accuracy_loss}
 \end{figure}
@@ -798,8 +792,122 @@ S druge strane, trening metrika pokazuje blagi pad greške i stabilnu, ali relat
 
 \newpage
 \section{Klasterovanje}
+Klasterovanje predstavlja postupak grupisanja podataka na osnovu međusobne sličnosti, pri čemu se formiraju grupe tj. klasteri unutar kojih su podaci najsličniji jedni drugima. U mašinskom učenju postoji veliki broj algoritama klasterovanja u zavisnosti od prirode podataka. U ovom radu, predmet analize je skup podataka sa mešovitim tipovima atributa. Kategorički atributi odnose se na parove proteinskih blokova, aminokiselina i sekundarnih struktura, dok numerički atributi obuhvataju očekivanu učestalost prelaza između proteinskih blokova, pLDDT vrednosti i RSA parametre. Dakle, cilj ovog dela rada jeste da se izvrši klasterovanje prelaza između proteinskih blokova.
+
+S obzirom na karakteristike podataka, izbor algoritama pogodnih za njihovo grupisanje je ograničen. Stoga je za potrebe ovog istraživanja odabran algoritam \textit{K-Prototypes}, koji je specijalizovan za rad sa mešovitim podacima i omogućava istovremeno korišćenje različitih mera sličnosti za numeričke i kategoričke atribute.
+
+\subsection{K-Prototypes}
+K-Prototypes algoritam predstavlja proširenje dobro poznatog K-means algoritma - koji radi samo sa numeričkim podacima, i njegove varijante za čisto kategoričke podatke K-modes.
+\\ Razvijen je s ciljem klasterovanja mešovitih podataka. Ovakvi podaci zahtevaju specifičan pristup, jer tradicionalne mere sličnosti nisu podjednako pogodne za oba tipa atributa.
+\\ K-Prototypes koristi kombinovanu meru sličnosti kojom integriše Euklidsko rastojanje za numeričke atribute i jednostavno uparivanje koeficijenata (SMC - sample matching coefficient) za kategoričke atribute:
+
+\begin{itemize}
+    \item \textbf{Numerički atributi:} Sličnost se meri pomoću standardnog Euklidskog rastojanja:
+    \[
+    d_{num}(x_i, z_l) = \sum_{j=1}^{m_r} (x_{ij}^{(r)} - z_{lj}^{(r)})^2
+    \]
+    gde je $l$ indeks posmatranog klastera, $r$ oznaka da je u pitanju numerički atribut, $x_{ij}^{(r)}$ vrednost $j$-tog numeričkog atributa instance (tačke) $i$, a $z_{lj}^{(r)}$ odgovarajuća vrednost prototipa(centra) klastera $l$ za atribut $j$. U ovom slučaju centar predstavlja aritmetičku sredinu svih tačaka u tom klasteru.
+
+    \item \textbf{Kategorički atributi:} Različitost se izražava kroz broj nepodudaranja između kategoričkih vrednosti:
+    \[
+    d_{cat}(x_i, z_l) = \gamma \sum_{j=1}^{m_c} \delta(x_{ij}^{(c)}, z_{lj}^{(c)})
+    \]
+    gde je $\delta(x, z) = 0$ ako su vrednosti jednake, a $1$ ako nisu. Koeficijent $\gamma$ predstavlja težinu kategoričkih atributa u ukupnoj meri različitosti.
+    
+\end{itemize}
+Ukupna udaljenost između instance $x_i$ i prototipa $z_l$ definisana je kao:
+\[
+d(x_i, z_l) = \sum_{j=1}^{m_r} (x_{ij}^{(r)} - z_{lj}^{(r)})^2 + \gamma \sum_{j=1}^{m_c} \delta(x_{ij}^{(c)}, z_{lj}^{(c)})
+\]
+
+Cilj K-Prototypes algoritma jeste minimizacija ukupne funkcije cene (engl. \textit{cost function}), koju je definisao Huang. Ukupna funkcija cene sastoji se iz dve komponente: troška za numeričke atribute i troška za kategoričke atribute:
+
+\[
+Cost = \sum_{l=1}^{k} \sum_{x_i \in C_l} \left( \sum_{j=1}^{m_r} (x_{ij}^{(r)} - z_{lj}^{(r)})^2 + \gamma \sum_{j=1}^{m_c} \delta(x_{ij}^{(c)}, z_{lj}^{(c)}) \right)
+\]
+
+gde je:
+\begin{itemize}
+    \item $k$ broj klastera,
+    \item $C_l$ skup instanci dodeljenih klasteru $l$,
+    \item $m_r$ broj numeričkih atributa,
+    \item $m_c$ broj kategoričkih atributa,
+    \item $z_l$ centar klastera $l$.
+\end{itemize}
+Minimizacijom ukupne funkcije cene (\textit{eng. cost}) postiže se optimalno grupisanje instanci u klastere koji su međusobno što sličniji unutar klastera, a što različitiji između klastera. Uzimajući u obzir i numeričke i kategoričke atribute u istoj formuli, K-Prototypes predstavlja robustan i efikasan pristup klasterovanju mešovitih podataka i zato je izabran u ovom radu.
+\subsection{Vizuelizacija podataka}
+Budući da K-Prototypes algoritam zahteva unapred definisan broj klastera, vizuelizacija podataka može biti korisna pomoć pri određivanju odgovarajuće vrednosti ovog parametra. S obzirom na to da skup podataka koji se klasteruje sadrži deset atributa, odnosno da je višedimenzionalan, za svrhe prikaza podataka u dve dimenzije neophodno je primeniti neku od tehnika redukcije dimenzionalnosti.
+
+U ovom radu izabrana je tehnika \textbf{UMAP} (\textit{eng. Uniform Manifold Approximation and Projection}).
+\subsubsection{UMAP}
+UMAP je nelinearna metoda redukcije dimenzionalnosti koja se zasniva na matematičkim principima i oblastima kao što su Rimanova geometrija i algebarska topologija. Osmišljena je da očuva lokalnu i globalnu strukturu podataka prilikom projekcije u niži dimenzionalni prostor. Osim očuvanja globalne strukture prednosti UMAP-a se ogledaju i u skalabilnosti (podržava efikasan rad sa velikim skupovima podataka) i fleksibilnosti (pored vizuelizacije koristi se i u opšte svrhe redukcije dimenzionalnosti).
+
+Zbog sposobnosti da efikasno obradi velike i kompleksne skupove podataka mešovitog tipa, kao i da prepozna nelinearne obrasce, UMAP se pokazao kao prikladan alat za otkrivanje potencijalne strukture klastera u primeru konrektnog skupa podataka koji se koristi u radu.
+
+Za potrebe ove analize korišćena je implementacija iz biblioteke \texttt{umap-learn} u \textit{Python}-u. Zbog veličine originalnog skupa podataka (preko 670.000 redova) i njegove kompleksnosti (kombinacija kategoričkih atributa sa puno vrednosti i numeričkih atributa), izvršeno je slučajno uzorkovanje od 10\% instanci radi ubrzanja procesa. Numerički atributi su prethodno transformisani korišćenjem \texttt{Yeo-Johnson} transformacije radi stabilizacije disperzije i približavanja normalnoj raspodeli, dok su kategorički atributi enkodirani uz pomoć \texttt{LabelEncoder}-a. Tako pripremljeni podaci su zatim prosleđeni UMAP algoritmu radi vizuelizacije u dvodimenzionalnom prostoru. \footnote{Parametri \texttt{n\_components=2}, \texttt{n\_neighbors=10} i \texttt{min\_dist=0.3} određuju dimenziju prikaza, broj suseda za lokalno modeliranje i minimalnu međusobnu udaljenost tačaka u projektovanom prostoru, respektivno.}
+
+Na slici \ref{Slika:umap} prikazan je rezultat UMAP vizuelizacije.
+\newpage
+\begin{figure}[htbp]
+    	\centering
+    	\includegraphics[width=1\textwidth]{./images/umap.png}
+    	\caption{UMAP vizualizacija podataka (Yeo-Johnson + Label Encoding)}
+    	\label{Slika:umap}
+\end{figure}
+
+Na osnovu dobijene UMAP projekcije može se uočiti da postoje relativno jasno odvojene grupe tačaka, što vizuelno ukazuje na postojanje klastera u podacima. Ipak, treba imati u vidu da je projekcija urađena na ograničenom uzorku podataka pa se broj uočenih grupa ne mora u potpunosti preslikavati na ceo skup. 
+
+Analizom rezultata vizualizacije, odlučeno je da se klasterovanje detaljnije ispita za vrednosti broja klastera $k = 8$ i $k = 10$, kako bi se obuhvatile najistaknutije strukture u podacima.
+\subsection{Pretprocesiranje podataka}
+Pre primene K-Prototypes algoritma, neophodno je sprovesti odgovarajuće korake pripreme podataka, imajući u vidu da ovaj algoritam istovremeno obrađuje numeričke i kategoričke atribute.
+\\
+Za numeričke atribute, izvršena je standardizacija pomoću \texttt{StandardScaler} iz biblioteke \texttt{sklearn}, čime se postiže da svi atributi imaju srednju vrednost 0 i standardnu devijaciju 1. Ova transformacija je važna kako bi se numerički atributi nalazili na uporedivoj skali i kako bi se sprečilo da atributi sa većim numeričkim rasponom dominiraju u računanju sličnosti.
+\\
+Za kategoričke atribute, dodatna transformacija nije neophodna jer \\K-Prototypes koristi internu reprezentaciju za poređenje kategoričkih vrednosti. Međutim, neophodno je obezbediti indeksne pozicije kolona koje predstavljaju kategoričke atribute, kako bi ih algoritam mogao prepoznati.
+
+\subsection{Rezultati klasterovanja}
+Algoritam \texttt{K-Prototypes} primenjen je nad celokupnim skupom podataka, koji sadrži ukupno $671{,}155$ instanci i $10$ atributa mešovitog tipa (numeričkih i kategoričkih). Klasterovanje je sprovedeno za dva različita broja klastera -- $k=8$ i $k=10$, kako bi se omogućilo poređenje rezultata i procena optimalnog broja klastera.
+
+Za $k=8$, dobijena ukupna cena klasterovanja (\texttt{cost\_}) iznosi približno \textbf{1.392.549}, dok za $k=10$ iznosi nešto niže, približno \textbf{1.316.788}, što ukazuje na nešto bolje interno uklapanje instanci u klastere kod većeg broja klastera.
+
+Radi vizuelne interpretacije rezultata, odnosno prikaza klastera, iskorišćena je UMAP tehnika nad uzorkom od $10\%$ celokupnog skupa podataka. Vizuelizacija 8 klastera je prikazana na slici \ref{Slika:clusters1}, dok slika \ref{Slika:clusters2} predstavlja vizuelizaciju 10 klastera.
+
+\begin{figure}[htbp]
+    	\centering
+    	\includegraphics[width=1\textwidth]{./images/umap_clusters1.png}
+    	\caption{Vizuelizacija klastera (k=8)}
+    	\label{Slika:clusters1}
+\end{figure}
+\begin{figure}[htbp]
+    	\centering
+    	\includegraphics[width=1\textwidth]{./images/umap_clusters2.png}
+    	\caption{Vizuelizacija klastera (k=10)}
+    	\label{Slika:clusters2}
+\end{figure}
+
+Procena kvaliteta klasterovanja izvršena je pomoću senka koeficijenta \textit{eng. silhouette coefficient}, prilagođenog za mešovite tipove podataka korišćenjem \textbf{Gower} rastojanja. Zbog veličine skupa podataka i formiranja matrice prilikom računanja \textbf{Gower} rastojanja, evaluacija je sprovedena nad uzorkom od 4\%. 
+
+Dobijeni rezultati su sledeći:
+\begin{itemize}
+    \item Za $k=8$ vrednost senka koeficijenta iznosi \textbf{0.1663}.
+    \item Za $k=10$ vrednost senka koeficijenta iznosi \textbf{0.1682}.
+\end{itemize}
+
+Obe vrednosti ukazuju na slabo izraženu, ali prisutnu strukturu klastera i delimičnu odvojenost klastera. Nešto viši rezultat za $k=10$ sugeriše da veći broj klastera može bolje obuhvatiti varijacije u podacima. Međutim, treba imati u vidu da se evaluacija vršila na uzorku.
+
+Iz rezultata se zaključuje da među prelazima proteinskih blokova postoji izvesna sličnost, ali ona nije jasno izražena u prostoru karakteristika.
 \newpage
 \section{Zaključak}
+U ovom radu sprovedena je sveobuhvatna analiza prelaza između proteinskih blokova sa ciljem boljeg razumevanja njihove strukturne i funkcionalne uloge u opisu trodimenzionalne strukture proteina.
+
+Analitički deo je ukazao na to da su glicin i neregularne sekundarne strukture dominantni u retkim prelazima, što potvrđuje njihovu povezanost sa fleksibilnošću i varijabilnošću u proteinskoj strukturi. Analiza vrednosti pLDDT i RSA parametara omogućila je procenjivanje pouzdanosti predikcije prelaza i izloženosti rastvaraču, pri čemu su najpouzdanija predviđanja vezana za stabilne sekundarne strukture poput $\alpha$-zavojnica i $\beta$-ploča.
+
+U okviru klasifikacije, CatBoost i neuronske mreže pokazale su značajno bolje rezultate u predikciji proteinskih blokova u odnosu na aminokiseline i sekundarne strukture, što ukazuje na veću konzistentnost i predvidivost proteinskih blokova kao strukturnih jedinica.
+
+Klasterovanje metodom K-Prototypes pokazalo je postojanje određene, ali slabije izražene strukture među prelazima, čime je potvrđena složenost podataka i heterogenost njihovih karakteristika. Vizuelizacija pomoću UMAP-a omogućila je identifikaciju potencijalnih grupa, dok je senka koeficijent nad uzorkom podataka ukazao na umerenu odvojenost klastera.
+
+Zaključno, rad potvrđuje da proteinski blokovi kao strukturni alfabeti predstavljaju koristan model za analizu lokalnih struktura proteina. Iako postoje izazovi u klasifikaciji i jasnom grupisanju zbog prirode podataka, kombinacija deskriptivne i prediktivne analize omogućava detaljno sagledavanje uloge pojedinačnih elemenata i njihovih međusobnih odnosa.
+
 \newpage
 \begin{thebibliography}{5}
     \bibitem{carter2003dsspcont} 
