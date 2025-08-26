@@ -72,7 +72,7 @@ Trodimenzionalna struktura može se opisati i korišćennjem aproksimativnih pro
     \label{Slika:pbs}
 \end{figure}
 
-Jedan od najpoznatijih strukturnih alfabeta jeste Proteinski blokovi (PB), koje je razvio De Brevern (2000). Proteinski blokovi se sastoji od 16 prototipova, koji su izdvojeni korišćenjem algoritama klasterovanja, Kohenonove samoorganizovajuće mape, nad fragmentima od pet uzastopnih aminokiselina kod proteina sa već poznatom strukturom. U prvom istraživanju je korišćeno 228 poznatih proteina, a kasnije je istraživanje ponovljeno nad 400 poznatih proteina. Procedura klasterovanja se odvijala u tri koraka. U prvom koraku se koristi mera sličnosti fragmenata RMSDA (eng. Root Mean Square Deviation on Angle), u drugom koraku se dodatno koristi i verovatnoća prelaska jednog fragmenta u drugi u sekvenci, dok se u trećem koraku izbacuje ograničenje verovatnoće prelaska. Na kraju je odabrano 16 proteinskih blokova, definisanih sa osam diedarskih uglova, $\psi_{i-2}$, $\phi_{i-1}$, $\psi_{i-1}$, $\phi_i$, $\psi_i$, $\phi_{i+1}$, $\psi_{i+1}$, $\phi_{i+2}$ u odnosu na centralnu aminokiselinu u fragmentu dužine pet. \cite{joseph2010biohysrev} (Tabela \ref{Tabela:1})
+Jedan od najpoznatijih strukturnih alfabeta jeste Proteinski blokovi (PB), koje je razvio De Brevern. Proteinski blokovi se sastoji od 16 prototipova, koji su izdvojeni korišćenjem algoritama klasterovanja, Kohenonove samoorganizovajuće mape, nad fragmentima od pet uzastopnih aminokiselina kod proteina sa već poznatom strukturom. U prvom istraživanju je korišćeno 228 poznatih proteina, a kasnije je istraživanje ponovljeno nad 400 poznatih proteina. Procedura klasterovanja se odvijala u tri koraka. U prvom koraku se koristi mera sličnosti fragmenata RMSDA (eng. Root Mean Square Deviation on Angle), u drugom koraku se dodatno koristi i verovatnoća prelaska jednog fragmenta u drugi u sekvenci, dok se u trećem koraku izbacuje ograničenje verovatnoće prelaska. Na kraju je odabrano 16 proteinskih blokova, definisanih sa osam diedarskih uglova, $\psi_{i-2}$, $\phi_{i-1}$, $\psi_{i-1}$, $\phi_i$, $\psi_i$, $\phi_{i+1}$, $\psi_{i+1}$, $\phi_{i+2}$ u odnosu na centralnu aminokiselinu u fragmentu dužine pet. \cite{joseph2010biohysrev} (Tabela \ref{Tabela:1})
 \\
 \begin{table}[h!]
     \centering
@@ -102,18 +102,19 @@ Jedan od najpoznatijih strukturnih alfabeta jeste Proteinski blokovi (PB), koje 
 \end{table}
 \newpage
 Proteinski blokovi su označeni slovima od a do p (Slika \ref{Slika:pbs}). Najčešći proteinski blokovi, m i d, odgovaraju redom alfa-heliksu i beta-ravni. Proteinski blokovi od g do j odgovaraju nespecificnim strukturama (eng. coil). \\
-Prevođenje u sekvencu proteinskih blokova kod proteina sa poznatom 3D strukturom odvija se tako što se svakom fragmentu uzastopnih aminokselina dužine pet dodeli jedan proteinski blok sa najmanjom vrednošću RMSDA-a. Može se desiti i da se diedralni uglovi ne mogu izračunati u tom se slučaju dodeljuje slovo Z. Na ovaj način svaka aminokiselina učestvuje u pet proteinskih blokova, osim prve i poslednje. \\
+Prevođenje u sekvencu proteinskih blokova kod proteina sa poznatom 3D strukturom odvija se tako što se svakom fragmentu uzastopnih aminokselina dužine pet dodeli jedan proteinski blok sa najmanjom vrednošću RMSDA-a. U slučajevima kada izračunavanje diedralnih uglova nije moguće, kao i na krajevima lanca gde se ne može formirati prozor od pet aminokiselina, dodeljuje se slovo Z. Na ovaj način svaka aminokiselina učestvuje u pet proteinskih blokova, osim prve i poslednje. \\
 Strukturni alfabet Proteinski blokovi se koristi i u drugim podoblastima bioinformatike kao što su nadređivanje 3D strukture proteina, istraživanje strukture proteina, definisanje mesta vezivanja, i analize lokalnih konformacija poremećenih proteina. \\
-Postoje alati koji prevode PDB fajlove u sekvence proteinskih blokova, kao što je Plxplore.
+Postoje alati koji prevode PDB datoteke u sekvence proteinskih blokova, kao što je PBxplore.
 \newpage
 \section{Analiza}
-U ovom poglavlju analizirani su prelazi između proteinskih blokova. Fokus analize bio je na identifikaciji neočekivanih prelaza između proteinskih blokova i proučavanju aminokiselina i sekundarnim struktura prisutnih u njima. Dodatno, ispitane su vrednosti relevantnih parametara, kao i zastupljenost pojedinačnih aminokiselina u podacima.
+U ovom poglavlju analizirani su prelazi između proteinskih blokova. Fokus analize bio je na identifikaciji neočekivanih prelaza između proteinskih blokova i proučavanju aminokiselina i sekundarnih struktura prisutnih u njima. Analiza koja se odnosi na aminokiseline i sekundarne strukture sprovedena je nad skupom podataka \texttt{March\_2024\_PDB\_01.txt}, dok su ispitivanje vrednosti relevantnih parametara (\texttt{pLDDT} i \texttt{RSA}) i analiza zastupljenosti pojedinačnih aminokiselina u podacima izvršeni na osnovu datoteke \texttt{March\_2024\_AF2\_01.txt}.
 
 \subsection{Opis podataka}
 Podaci korišćeni u analizi obuhvataju informacije o proteinskim blokovima (PBs), aminokiselinama (AA), sekundarnim strukturama (S2), predviđenoj učestalosti prelaza, kao i dodatnim parametrima poput pLDDT i RSA. Izvor podataka su rezultati generisani pomoću AlphaFold2 programa. Konkretno, analiza je sprovedena nad dve datoteke: prvobitnog, obimnijeg skupa podataka, koji detaljnije opisuje prelaze između proteinskih blokova i manjeg podskupa dobijenog filtriranjem rezultata u skladu sa humanim proteomom. \\
 Podaci su organizovani u tabelarnom formatu, pri čemu svaki red sadrži parove proteinskih blokova koji čine prelaz, parove aminokiselina i sekundarnih struktura koji ga opisuju, predviđenu učestalost prelaza i vrednosti parametara pLDDT i RSA.
 \\
-U nastavku je dat detaljan opis atributa:
+U nastavku je prikazan opis atributa datoteke \texttt{March\_2024\_AF2\_01.txt}.  
+Datoteka \texttt{March\_2024\_PDB\_01.txt} sadrži identičan skup atributa, izuzev atributa \texttt{pLDDT} i \texttt{RSA}:
 
 \begin{itemize}
     \item \textbf{Protein\_number} – diskretan, kategorijski i redni atribut koji označava pojedinačne proteine u skupu podataka.
@@ -171,8 +172,8 @@ U nastavku je dat detaljan opis atributa:
 	\label{Tabela:2}
 \end{table}
 \newpage
-    \item \textbf{S2\_1, S2\_2} – diskretni, kategorijski i nominalni atributi koji predstavljaju sekundarne strukture prisutne u prelazu. Vrednosti ovih atributa određene su pomoću DSSP (\textit{eng. Dictionary of Secondary Structure of Proteins}) programa. DSSP program se koristi za dodeljivanje jednog od osam stanja sekundarne strukture aminokiselinama tako što se identifikuju vodonične veze između amino i karboksilnih grupa glavnog lanca proteina. \\
-U tabeli \ref{Tabela:3} prikazane su oznake i odgovarajući tipovi sekundarne strukture~\cite{carter2003dsspcont}.
+    \item \textbf{S2\_1, S2\_2} – diskretni, kategorijski i nominalni atributi koji predstavljaju sekundarne strukture prisutne u prelazu. Vrednosti ovih atributa određene su pomoću DSSP (\textit{eng. Dictionary of Secondary Structure of Proteins}) programa~\cite{carter2003dsspcont}. DSSP program se koristi za dodeljivanje jednog od osam stanja sekundarne strukture aminokiselinama tako što se identifikuju vodonične veze između amino i karboksilnih grupa glavnog lanca proteina. \\
+U tabeli \ref{Tabela:3} prikazane su oznake i odgovarajući tipovi sekundarne strukture.
 \\
 \begin{table}[h!]
     \centering
@@ -190,16 +191,21 @@ U tabeli \ref{Tabela:3} prikazane su oznake i odgovarajući tipovi sekundarne st
     C & Nespecifična ili neorganizovana struktura (\textit{eng. coil}) \\
     \hline
     \end{tabular}
-    \caption{Sekundarne strukture proteina prema DSSP standardu, korišćene kao vrednosti atributa S2\_1 i S2\_2.}
+    \caption{Sekundarne strukture proteina prema DSSP programu, korišćene kao vrednosti atributa S2\_1 i S2\_2.}
     \label{Tabela:3}
 \end{table}
 \newpage
     \item \textbf{expected\_frequency} - neprekidan, kvantitativan i razmerni atribut čija vrednost pripada intervalu [0,1] i označava očekivanu učestalost prelaza između proteinskih blokova.
     \item \textbf{pLDDT, RSA1, RSA2} – neprekidni, kvantitativni i razmerni atributi čije su vrednosti u intervalu [0,100]. Parametar pLDDT procenjuje pouzdanost predikcije lokalne strukture proteina, dok RSA1 i RSA2 predstavljaju relativnu izloženost aminokiselinskih ostataka rastvaraču.
 \end{itemize}
-\subsubsection{Izdvajanje retkih prelaza između proteinskih blokova u podacima}
-Glavni zadatak analize bio je proučavanje prelaza između proteinskih blokova pri čemu je akcenat stavljen na neočekivane, retke prelaze. Takvi prelazi su, zbog svoje prirode, od posebnog interesa za istraživanje jer mogu doprineti novim saznanjima o nizu proteinskih blokova koji opisuje trodimenzionalnu strukturu proteina. \\
-U ovom radu, retkim prelazom smatra se onaj koji se javlja u manje od $1\%$ slučajeva. 
+\subsection{Izdvajanje retkih prelaza između proteinskih blokova u podacima}
+Glavni zadatak analize bio je proučavanje prelaza između proteinskih blokova, pri čemu je akcenat stavljen na neočekivane, retke prelaze. Takvi prelazi su, zbog svoje prirode, od posebnog interesa za istraživanje jer mogu doprineti novim saznanjima o nizu proteinskih blokova koji opisuje trodimenzionalnu strukturu proteina.  
+
+U okviru implementacije, za potrebe filtriranja konstruisana je pomoćna funkcija \texttt{filter\_data\_set}, čiji je zadatak bio da ukloni kolone koje nisu od značaja za analizu, a zatim formira novu kolonu koja predstavlja spoj proteinskih blokova između kojih se prelaz ispituje. Nakon toga računaju se učestalosti svakog prelaza i generiše se tabela sa njihovim apsolutnim brojevima pojavljivanja. Na ovaj način dobijena je lista svih mogućih prelaza između proteinskih blokova sa pripadajućim brojem ponavljanja u posmatranom skupu podataka.  
+
+Polazeći od ovako pripremljenih rezultata, izvršeno je izdvajanje onih prelaza čija relativna učestalost iznosi manje od $1\%$ u odnosu na ukupan broj prelaza. Konkretno, prelaz je označen kao \emph{redak} ukoliko se javlja u manje od $1\%$ svih slučajeva. Nakon toga je sprovedeno uklanjanje duplikata, čime je obezbeđeno da se retki prelazi posmatraju kao jedinstvene kombinacije proteinskih blokova. Konačan rezultat postupka predstavlja skup neočekivanih prelaza između proteinskih blokova koji su predmet daljih analiza. \\
+Svi izdvojeni retki prelazi sačuvani su u datoteci \texttt{unexpected\_transitions.csv}.
+
 \subsection{Izdvajanje parova aminokiselina prisutnih u neočekivanim prelazima}
 U cilju pronalaženja potencijalnih korelacija između atributa, odnosno između parova aminokiselina vezanih za retki prelaz i proteinskih blokova koji formiraju prelaz, izvršeno je izdvajanje tih parova. Pored toga, izračunate su frekvencije svih parova, a zatim su izdvojeni oni najfrekventiniji. \\ 
 S obzirom na to da se u podacima korišćenim za ovu analizu prelazi ne nadovezuju, posmatran je pojedinačno svaki prelaz i unutar njega određen svaki par aminokiselina. Važno je napomenuti da redosled aminokiselina u paru nije irelevantan, zbog čega se parovi aminokiselina (A1, A2) ne mogu smatrati identičnim parovima (A2, A1). Kako bi ova tvrdnja bila intuitivnija i jasnija, potrebno je prvo objasniti zašto je prelaz određen sa dve aminokiseline iako su proteinski blokovi sačinjeni od 5 uzastopnih aminokiselina. \\ 
@@ -222,7 +228,8 @@ Izračunate su frekvencije svakog para aminokiselina u prelazima. Najčešće se
 \end{figure}
 \newpage
 Dobijeni najfrekventniji par je od posebnog interesa s obzirom na specifične karakteristike glicina.
-Glicin, zbog svog malog bočnog lanca, ima ključnu ulogu u omogućavanju fleksibilnosti u proteinu. Takođe, glicin doprinosi stabilnosti tercijalne strukture proteina \cite{dong2012glycines}. S obzirom na to, njegova velika učestalost može ukazivati na stabilnost u prelazima.
+Glicin, zbog svog malog bočnog lanca, ima ključnu ulogu u omogućavanju fleksibilnosti u proteinu. Takođe, glicin doprinosi stabilnosti tercijalne strukture proteina \cite{dong2012glycines}. S obzirom na to, njegova velika učestalost može ukazivati na stabilnost u prelazima.\\
+Svi parovi aminokiselina, zajedno sa njihovim frekvencijama, sačuvani su u datoteci \texttt{amino\_acid\_pairs.csv}.
 \subsection{Izdvajanje parova sekundarnih struktura koji se javljaju u neočekivanim prelazima}
 Nakon izdvajanja aminokiselina, sledeći korak u analizi bio je ispitivanje sekundarnih struktura koje se javljaju u prelazima i njihove učestalosti. Kao i u slučaju aminokiselina, izvojeni su parovi sekundarnih struktura tako da je redosled unutar svakog para važan. \\
 Sekundarna struktura proteina definiše lokalne konformacije polipeptidnog lanca koje nastaju usled interakcija između atoma kičme lanca. Najčešča klasifikacija sekundarne strukture je na $\alpha$-zavojnice i $\beta$-ploče, dok se ostale konformacije označavaju kao neregularno stanje (\textit{eng. coil}). Međutim, utvrđeno je da u proseku čak $50\%$ ostataka \cite{debrevern2010proteinblocks} kolektivno tretira kao neregularno stanje što značajno pojednostavljuje strukturu proteina i dovodi do brojnih ograničenja u njenoj analizi. To je jedan od glavnih razloga formiranja proteinskih blokova kao koncepta. \\ 
@@ -235,7 +242,8 @@ Izračunate su frekvencije parova sekundarnih struktura u prelazima i na slici \
     \label{Slika:s2freq}
 \end{figure}
 \\
-Rezultati analize pokazuju da su najčešće zastupljeni parovi CC (\textit{coil–coil}), SS (\textit{bend–bend}) i TT (\textit{helix-turn–helix-turn}), koji ne pripadaju klasičnim tipovima sekundarnih struktura. Ovo je u skladu sa pretpostavkom da će u retkim prelazima dominirati neregularne sekundarne strukture.
+Rezultati analize pokazuju da su najčešće zastupljeni parovi CC (\textit{coil–coil}), SS (\textit{bend–bend}) i TT (\textit{helix-turn–helix-turn}), koji ne pripadaju klasičnim tipovima sekundarnih struktura. Ovo je u skladu sa pretpostavkom da će u retkim prelazima dominirati neregularne sekundarne strukture. \\
+Svi parovi sekundarnih struktura, zajedno sa njihovim frekvencijama, sačuvani su u datoteci \texttt{secondary\_structure\_pairs.csv}.
 \subsubsection{Izdvajanje kombinacija aminokiselina i sekundarnih struktura u neočekivanim prelazima}
 Pored analize parova aminokiselina i sekundarnih struktura zasebno, izvršeno je i ispitivanje njihovih kombinacija radi pronalaska međusobnih korelacija u prelazima.  \\
 Na slici \ref{Slika:aas2freq} dat je prikaz najfrekventnijih kombinacija.
@@ -246,7 +254,8 @@ Na slici \ref{Slika:aas2freq} dat je prikaz najfrekventnijih kombinacija.
     \label{Slika:aas2freq}
 \end{figure}
 \\
-Rezultati pokazuju da je daleko najzastupljenija kombinacija GG CC. Može se zaključiti da je razlog toga visok stepen fleksibilnosti glicina, koji ga može učiniti sklonijim ka formiranju neregularnih konformacija. Prethodna analiza je pokazala da su pojedinačno najzastupljeniji parovi aminokiselina i sekundarnih struktura baš glicin i neregularno stanje, što dodatno doprinosi tvrdnji da postoji visoka korelisanost kako između njih tako i između njih i proteinskih blokova koji čine prelaz.
+Rezultati pokazuju da je daleko najzastupljenija kombinacija GG CC. Može se zaključiti da je razlog toga visok stepen fleksibilnosti glicina, koji ga može učiniti sklonijim ka formiranju neregularnih konformacija. Prethodna analiza je pokazala da su pojedinačno najzastupljeniji parovi aminokiselina i sekundarnih struktura baš glicin i neregularno stanje, što dodatno doprinosi tvrdnji da postoji visoka korelisanost kako između njih tako i između njih i proteinskih blokova koji čine prelaz.\\
+Sve kombinacije parova aminokiselina i sekundarnih strukura, zajedno sa njihovim frekvencijama, sačuvani su u datoteci \\\texttt{amino\_acid\_secondary\_structure\_combination.csv}.
 \subsection{Analiza vrednosti pLDDT parametra}
 pLDDT (\textit{eng. the predicted local distance difference test}) predstavlja meru pouzdanost lokalne strukture proteina, predviđene AlphaFold2 programom. Vrednosti su na skali od 0 do 100, pri čemu veće vrednosti ukazuju na visoku pouzdanost i precizniju predikciju. \\
 Vrednosti pLDDT veće od 90 se kategorišu kao najveća preciznost i tada se smatra da su i kičma i bočni lanci proteina predviđeni sa visokom preciznošću. Nasuprot tome, vrednosti ispod 70 tipično ukazuju na ispravno predviđenu kičmu, ali sa mogućim greškama u predikciji bočnih lanaca. \\
@@ -262,8 +271,8 @@ Na slici \ref{Slika:plddt} prikazan je primer strukture proteina sa određenim p
 \\
 Glavni cilj ovog dela analize je upravo bio ispitivanje prirode vrednosti pLDDT mere u podacima.
 \newpage
-\subsubsection{Vrednosti pLDDT u opštem slučaju}
-Ispitivanje vrednosti pLDDT u opštem slučaju podrazumeva analiziranje vrednosti ove mere na celom skupu podataka. Ovakva analiza omogućava donošenje zaključaka o preciznosti predikcija lokalnih struktura proteina čiji su proteinski blokovi bili predmet intraživanja u ovom radu. \\
+\subsubsection{Prosečna vrednost pLDDT u podacima}
+Ispitivanje prosečne vrednosti pLDDT podrazumeva analiziranje vrednosti ove mere na celom skupu podataka. Ovakva analiza omogućava donošenje zaključaka o preciznosti predikcija lokalnih struktura proteina čiji su proteinski blokovi bili predmet intraživanja u ovom radu. \\
 Radi utvrđivanja prirode posmatrane mere, najpre je konstruisan histogram vrednosti pLDDT. Prikaz histograma je dat na slici \ref{Slika:distribution}.
 \begin{figure}[htbp]
     	\centering
@@ -273,12 +282,12 @@ Radi utvrđivanja prirode posmatrane mere, najpre je konstruisan histogram vredn
 \end{figure}
 \\
 Raspodela pokazuje izraženu asimetričnost, sa dominantnim vrhom u intervalu 30–40 i dugim desnim repom. Ovakav oblik raspodele sugeriše da može biti aproksimirana gama raspodelom ili nekom drugom asimetričnom raspodelom. Dodatno, primećuje se manja frekvencija pLDDT vrednosti u višem opsegu (iznad 70), što može ukazivati na retkost visoko pouzdanih predikcija u opštem slučaju. \\
-Za preciznije ispitivanje raspodele, potrebno je izračunati osnovne deskriptivne statistike. Srednja vrednost iznosi približno 37.6, 0.75 kvantil 39.6, dok maksimalna pLDDT vrednost koja se javlja u skupu iznosi 98.95. Vrednost ostalih statistika dat je u tabeli \ref{Tabela:4}.
+Za preciznije ispitivanje raspodele, potrebno je izračunati osnovne opisne statistike. Srednja vrednost iznosi približno 37.6, 0.75 kvantil 39.6, dok maksimalna pLDDT vrednost koja se javlja u skupu iznosi 98.95. Vrednost ostalih statistika dat je u tabeli \ref{Tabela:4}.
 \begin{table}[h!]
     \centering
     \begin{tabular}{ |l|l| } 
     \hline
-    \textbf{Deskriptivna statistika} & \textbf{pLDDT} \\
+    \textbf{Opisna statistika} & \textbf{pLDDT} \\
     \hline
     mean & 37.586782 \\
     std  & 13.145442 \\
@@ -289,20 +298,20 @@ Za preciznije ispitivanje raspodele, potrebno je izračunati osnovne deskriptivn
     max & 98.949997 	\\
     \hline
     \end{tabular}
-    \caption{Osnovne deskriptivne statistike za pLDDT parametar.}
+    \caption{Osnovne opisne statistike za pLDDT parametar.}
     \label{Tabela:4}
 \end{table}
 \newpage
-Zaključak je da se u opštem slučaju najčešće javljaju veoma niske pLDDT vrednosti. Ovaj rezultat može da sugeriše na to da analizu nije prikladno vršiti na osnovu celih redova u skupu podataka zbog potencijalne pristrasnosti vrednostima koje se javljaju samo u određenim prelazima, za određene proteine. Iz tog razloga, potrebno je grupisati podatke na osnovu nekog atributa i dalje vršiti analizu.
+Zaključak je da se u podacima najčešće javljaju veoma niske pLDDT vrednosti. Ovaj rezultat može da sugeriše na to da analizu nije prikladno vršiti na osnovu celih redova u skupu podataka zbog potencijalne pristrasnosti vrednostima koje se javljaju samo u određenim prelazima, za određene proteine. Iz tog razloga, potrebno je grupisati podatke na osnovu nekog atributa i dalje vršiti analizu.
 \subsubsection{Vrednosti pLDDT prema proteinskim blokovima}
 Sledeći korak analize pLDDT-a jeste ispitivanje vrednosti te mere u odnosu na proteinske blokove. Ispitivanje je vršeno tako što su se podaci grupisali na osnovu parova proteinskih blokova. Nakon toga, izračunata je prosečna vrednost pLDDT mere. Na taj način dodeljena je reprezentativna pLDDT vrednost za svaki par proteinskih blokova. \\
 Ideja je da se za određeni prelaz utvrdi da li se pretežno javljaju visoke ili niske vrednosti pLDDT-a i na taj način donese zaključak da li taj prelaz sadrži relativno precizno predviđene lokalne strukture proteina. \\
-Da bi se dobila relevantna informacija o prirodi vrednosti pLDDT u odnosu na sve prelaze, izračunate su desktriptivne statistike za tako grupisane podatke. Pregled vrednosti statistika je dostupan u tabeli \ref{Tabela:5}.
+Da bi se dobila relevantna informacija o prirodi vrednosti pLDDT u odnosu na sve prelaze, izračunate su opisne statistike za tako grupisane podatke. Pregled vrednosti statistika je dostupan u tabeli \ref{Tabela:5}.
 \begin{table}[h!]
     \centering
     \begin{tabular}{ |l|l| } 
     \hline
-    \textbf{Deskriptivna statistika} & \textbf{pLDDT} \\
+    \textbf{Opisna statistika} & \textbf{pLDDT} \\
     \hline
     mean & 63.454415 \\
     std  & 18.023050 \\
@@ -313,7 +322,7 @@ Da bi se dobila relevantna informacija o prirodi vrednosti pLDDT u odnosu na sve
     max & 90.566951 	\\
     \hline
     \end{tabular}
-    \caption{Osnovne deskriptivne statistike za pLDDT parametar prema proteinskim blokovima.}
+    \caption{Osnovne opisne statistike za pLDDT parametar prema proteinskim blokovima.}
     \label{Tabela:5}
 \end{table}
 
@@ -348,13 +357,15 @@ e & l & 85.53 \\
 \caption{Parovi proteinskih blokova (PB1-PB2) sa najvišom prosečnom vrednošću pLDDT-a.}
 \label{Tabela:6}
 \end{table}
+
+Sve vrednosti parametra \texttt{pLDDT} u odnosu na proteinske blokove sačuvane su u datoteci \texttt{plDDT\_protein\_block.csv}.
 \subsubsection{Vrednosti pLDDT prema aminokiselinama}
-U ovom delu analize podaci su grupisani na osnovu parova aminokiselina, izračunata je prosečna vrednost pLDDT mere za svaki par i na kraju određene deskriptivne statistike, date u tabeli \ref{Tabela:7}.
+U ovom delu analize podaci su grupisani na osnovu parova aminokiselina, izračunata je prosečna vrednost pLDDT mere za svaki par i na kraju određene opisne statistike, date u tabeli \ref{Tabela:7}.
 \begin{table}[h!]
     \centering
     \begin{tabular}{ |l|l| } 
     \hline
-    \textbf{Deskriptivna statistika} & \textbf{pLDDT} \\
+    \textbf{Opisna statistika} & \textbf{pLDDT} \\
     \hline
     mean & 38.670799 \\
     std  & 3.802211 \\
@@ -365,18 +376,19 @@ U ovom delu analize podaci su grupisani na osnovu parova aminokiselina, izračun
     max & 61.994733 	\\
     \hline
     \end{tabular}
-    \caption{Osnovne deskriptivne statistike za pLDDT parametar prema aminokiselinama.}
+    \caption{Osnovne opisne statistike za pLDDT parametar prema aminokiselinama.}
     \label{Tabela:7}
 \end{table}
 
-Dobijeni rezultati ukazuju na veoma niske vrednosti posmatrano prema parovima aminokiselina. Maksimalna vrednost u skupu pokazuje da se ni za jedan par ne javljaju visoko pouzdane vrednosti, odnosno vrednosti iznad 70. Naime, razlog ovako niskih vrednosti leži u tome što ista kombinacija aminokiselina može da se pojavi u potpuno različitim delovima različitih proteina, i to u okruženjima sa različitom stabilnošću, fleksibilnošću i strukturnom definisanošću što dovodi do velike varijacije pLDDT vrednosti.
+Dobijeni rezultati ukazuju na veoma niske vrednosti posmatrano prema parovima aminokiselina. Maksimalna vrednost u skupu pokazuje da se ni za jedan par ne javljaju visoko pouzdane vrednosti, odnosno vrednosti iznad 70. Naime, razlog ovako niskih vrednosti leži u tome što ista kombinacija aminokiselina može da se pojavi u potpuno različitim delovima različitih proteina, i to u okruženjima sa različitom stabilnošću, fleksibilnošću i strukturnom definisanošću što dovodi do velike varijacije pLDDT vrednosti.\\
+Sve vrednosti parametra \texttt{pLDDT} u odnosu na aminokiseline sačuvane su u datoteci \texttt{plDDT\_amino\_acid.csv}.
 \subsubsection{Vrednosti pLDDT prema sekundarnim strukturama}
 U analizi pLDDT mere ostalo je još ispitati njene vrednosti u odnosu na parove sekudarnih struktura. Ispitivanje je vršeno identično kao u slučaju parova proteinskih blokova i aminokiselina - podaci su najpre grupisani, zatim je izračunata prošečna pLDDT vrednost i na kraju su izračunate vrednosti statistika za novoformirani skup podataka koje su date u tabeli \ref{Tabela:8}.
 \begin{table}[h!]
     \centering
     \begin{tabular}{ |l|l| } 
     \hline
-    \textbf{Deskriptivna statistika} & \textbf{pLDDT} \\
+    \textbf{Opisna statistika} & \textbf{pLDDT} \\
     \hline
     mean & 73.448625 \\
     std  & 15.828469 \\
@@ -387,7 +399,7 @@ U analizi pLDDT mere ostalo je još ispitati njene vrednosti u odnosu na parove 
     max & 95.586667 	\\
     \hline
     \end{tabular}
-    \caption{Osnovne deskriptivne statistike za pLDDT parametar prema sekundarnim strukturama.}
+    \caption{Osnovne opisne statistike za pLDDT parametar prema sekundarnim strukturama.}
     \label{Tabela:8}
 \end{table}
 
@@ -423,7 +435,8 @@ E & E & 86.85 \\
 \label{Tabela:9}
 \end{table}
 \newpage
-Najpouzdaniji parovi sekundarnih struktura, odnosno parovi čija pLDDT vrednost prelazi 90, uglavnom uključuju elemente B, E i H, što je očekivano jer upravo ovi oblici strukture predstavljaju najstabilnije i najčešće strukturne oblike u proteinima. Odnosno, sasvim je prirodno pretpostaviti da će AlphaFold2 program moći baš te najosnovnije sekundarne strukture da predvidi precizno.
+Najpouzdaniji parovi sekundarnih struktura, odnosno parovi čija pLDDT vrednost prelazi 90, uglavnom uključuju elemente B, E i H, što je očekivano jer upravo ovi oblici strukture predstavljaju najstabilnije i najčešće strukturne oblike u proteinima. Odnosno, sasvim je prirodno pretpostaviti da će AlphaFold2 program moći baš te najosnovnije sekundarne strukture da predvidi precizno.\\
+Sve vrednosti parametra \texttt{pLDDT} u odnosu na sekundarne strukture sačuvane su u datoteci \texttt{plDDT\_secondary\_structure.csv}.
 \subsection{Analiza vrednosti RSA parametra}
 Pored pLDDT parametra, od posebnog interesa za analizu je bio i parametar RSA (eng. \textit{relative solvent accessibility}). RSA predstavlja meru izloženosti aminokiselinskog ostatka rastvaraču (vodi) u strukturi proteina i koristi se za opisivanje biofizičkih karakteristika proteina. Vrednost RSA za aminokiselinski ostatak računa se na osnovu formule:
 \begin{equation}
@@ -438,16 +451,16 @@ Na osnovu vrednosti RSA, odnosno izračunatoj izloženosti rastvaraču, aminokis
     \label{Slika:rsa}
 \end{figure}
 \\
-\subsubsection{Vrednosti RSA u opštem slučaju}
-Radi utvrđivanja RSA vrednosti u skupu podataka izračunate su deskriptivne statistike i određen je broj izloženih i zakopanih aminokiselinskih ostataka. U podacima postoje dve kolone koje se odnose na RSA jer se svaki prelaz između proteinskih blokova sastoji od para aminokiselina za koji je određena RSA vrednost. U skladu sa tim, prilikom računanja brojnosti svake od RSA kategorija sabrane su vrednosti dobijene za prvu i drugu kolonu. \\
+\subsubsection{Prosečne vrednosti RSA u podacima}
+Radi utvrđivanja RSA vrednosti u skupu podataka izračunate su opisne statistike i određen je broj izloženih i zakopanih aminokiselinskih ostataka. U podacima postoje dve kolone koje se odnose na RSA jer se svaki prelaz između proteinskih blokova sastoji od para aminokiselina za koji je određena RSA vrednost. U skladu sa tim, prilikom računanja brojnosti svake od RSA kategorija sabrane su vrednosti dobijene za prvu i drugu kolonu. \\
 Za obe kolone dobijena je srednja vrednost od približno $92\%$, dok medijana i treći kvartil iznose $100\%$. Takođe, dobijeno je da je $97.5\%$ aminokiselinskih ostataka, posmatrano u opštem slučaju, izloženo. Zaključak je da su u podacima daleko zastupljenije izložene aminokiseline i to visoko izložene, odnosno tako da su gotovo čitavom površinom dostupne rastvaraču.
 \subsubsection{Vrednosti RSA prema proteinskim blokovima}
-U ovom delu analize, podaci najpre grupisani na osnovu prelaza između proteinskih blokova, analogno pristupu koji je korišćen u analizi parametra pLDDT. Budući da za svaki prelaz postoje dve RSA vrednosti (po jedna za svaki od dva susedna ostatka), izračunata je njihova prosečna vrednost, koja je potom dodeljena kao reprezentativna vrednost za dati prelaz. Nad tako grupisanim podacima izračunate su deskriptivne statistike, čije vrednosti su date u tabeli \ref{Tabela:10}.
+U ovom delu analize, podaci najpre grupisani na osnovu prelaza između proteinskih blokova, analogno pristupu koji je korišćen u analizi parametra pLDDT. Budući da za svaki prelaz postoje dve RSA vrednosti (po jedna za svaki od dva susedna ostatka), izračunata je njihova prosečna vrednost, koja je potom dodeljena kao reprezentativna vrednost za dati prelaz. Nad tako grupisanim podacima izračunate su opisne statistike, čije vrednosti su date u tabeli \ref{Tabela:10}.
 \begin{table}[h!]
     \centering
     \begin{tabular}{ |l|l| } 
     \hline
-    \textbf{Deskriptivna statistika} & \textbf{RSA} \\
+    \textbf{Opisna statistika} & \textbf{RSA} \\
     \hline
     mean & 64.219617 \\
     std  & 20.352375 \\
@@ -458,18 +471,19 @@ U ovom delu analize, podaci najpre grupisani na osnovu prelaza između proteinsk
     max & 96.876662 	\\
     \hline
     \end{tabular}
-    \caption{Osnovne deskriptivne statistike za RSA parametar prema proteinskim blokovima.}
+    \caption{Osnovne opisne statistike za RSA parametar prema proteinskim blokovima.}
     \label{Tabela:10}
 \end{table}
 
-Rezultati ukazuju da su aminokiselinski ostaci, posmatrano za svaki pojedinačni prelaz, srednje izloženi rastvaraču odnosno da se nalaze u umereno izloženim regijama strukture. Posebno je značajan podatak da se kod čak $99.06\%$ svih prelaza beleži prosečna RSA vrednost iznad $25\%$, što sugeriše da se potpuno zakopane aminokiseline praktično ne javljaju kao karakteristika celih parova proteinskih blokova, već eventualno samo lokalno, na nivou pojedinačnih ostataka.
+Rezultati ukazuju da su aminokiselinski ostaci, posmatrano za svaki pojedinačni prelaz, srednje izloženi rastvaraču odnosno da se nalaze u umereno izloženim regijama strukture. Posebno je značajan podatak da se kod čak $99.06\%$ svih prelaza beleži prosečna RSA vrednost iznad $25\%$, što sugeriše da se potpuno zakopane aminokiseline praktično ne javljaju kao karakteristika celih parova proteinskih blokova, već eventualno samo lokalno, na nivou pojedinačnih ostataka. \\
+Sve vrednosti parametra \texttt{RSA} u odnosu na proteinske blokove sačuvane su u datoteci \texttt{RSA\_protein\_block.csv}.
 \subsubsection{Vrednosti RSA prema aminokiselinama}
-Za potrebe detaljnije analize, izvršeno je i ispitivanje prirode vrednosti RSA prema parovima aminokiselina u prelazima. Primenjena metodologija je identična kao u prethodnoj analizi – podaci su grupisani prema svim mogućim parovima aminokiselina koji se javljaju u prelazima, a zatim je za svaki par izračunata prosečna vrednost RSA. Na tako grupisanim podacima izračunate su osnovne deskriptivne statistike prikazane u Tabeli \ref{Tabela:11}.
+Za potrebe detaljnije analize, izvršeno je i ispitivanje prirode vrednosti RSA prema parovima aminokiselina u prelazima. Primenjena metodologija je identična kao u prethodnoj analizi – podaci su grupisani prema svim mogućim parovima aminokiselina koji se javljaju u prelazima, a zatim je za svaki par izračunata prosečna vrednost RSA. Na tako grupisanim podacima izračunate su osnovne opisne statistike prikazane u Tabeli \ref{Tabela:11}.
 \begin{table}[h!]
     \centering
     \begin{tabular}{ |l|l| } 
     \hline
-    \textbf{Deskriptivna statistika} & \textbf{RSA} \\
+    \textbf{Opisna statistika} & \textbf{RSA} \\
     \hline
     mean & 89.822263 \\
     std  & 5.541973 \\
@@ -480,18 +494,19 @@ Za potrebe detaljnije analize, izvršeno je i ispitivanje prirode vrednosti RSA 
     max & 98.135047 	\\
     \hline
     \end{tabular}
-    \caption{Osnovne deskriptivne statistike za RSA parametar prema aminokiselinama.}
+    \caption{Osnovne opisne statistike za RSA parametar prema aminokiselinama.}
     \label{Tabela:11}
 \end{table}
 
-Rezultati pokazuju izuzetno visoku prosečnu izloženost aminokiselinskih parova, sa srednjom vrednošću od približno $90\%$, što znači da se velika većina analiziranih parova nalazi u izloženim regijama proteinskih struktura. Čak i prvi kvartil iznosi $65.56\%$, što implicira da ni u jednom od posmatranih parova aminokiselina ne dolazi do značajnije zaklonjenosti površine.
+Rezultati pokazuju izuzetno visoku prosečnu izloženost aminokiselinskih parova, sa srednjom vrednošću od približno $90\%$, što znači da se velika većina analiziranih parova nalazi u izloženim regijama proteinskih struktura. Čak i prvi kvartil iznosi $65.56\%$, što implicira da ni u jednom od posmatranih parova aminokiselina ne dolazi do značajnije zaklonjenosti površine.\\
+Sve vrednosti parametra \texttt{RSA} u odnosu na aminokiseline sačuvane su u datoteci \texttt{RSA\_amino\_acid.csv}.
 \subsubsection{Vrednosti RSA prema sekundarnim strukturama}
 Na kraju ove analize, ispitana je pristupačnost aminokiselinskih ostataka rastvaraču u kontekstu parova sekundarnih struktura koje definišu prelaz. Kao i u prethodnim slučajevima, podaci su grupisani na osnovu para, izračunata je prosečna RSA vrednost i određene su potrebne statistike za analiziranje prirode RSA vrednosti. Rezultati su dati u tabeli \ref{Tabela:12}.
 \begin{table}[h!]
     \centering
     \begin{tabular}{ |l|l| } 
     \hline
-    \textbf{Deskriptivna statistika} & \textbf{RSA} \\
+    \textbf{Opisna statistika} & \textbf{RSA} \\
     \hline
     mean & 41.925664 \\
     std  & 30.019328 \\
@@ -502,12 +517,13 @@ Na kraju ove analize, ispitana je pristupačnost aminokiselinskih ostataka rastv
     max & 97.473198 	\\
     \hline
     \end{tabular}
-    \caption{Osnovne deskriptivne statistike za RSA parametar prema sekundarnim strukturama.}
+    \caption{Osnovne opisne statistike za RSA parametar prema sekundarnim strukturama.}
     \label{Tabela:12}
 \end{table}
 
 Dobijeni rezultati ukazuju na širi raspon izloženosti aminokiselinskih ostataka u zavisnosti od kombinacije sekundarnih struktura u prelazu. Srednja vrednost i medijana impliciraju umerenu izloženost u većini slučajeva. \\
-Zanimljivo je da je $58.62\%$ svih analiziranih parova sekundarnih struktura imalo prosečnu RSA vrednost veću od $25\%$, što ukazuje da je više od polovine parova locirano u regijama koje su bar delimično dostupne rastvaraču. S druge strane, prisustvo prelaza sa RSA vrednostima bliskim nuli ukazuje na to da neki tipovi sekundarnih struktura uključuju strukturno zaklonjene pozicije.
+Zanimljivo je da je $58.62\%$ svih analiziranih parova sekundarnih struktura imalo prosečnu RSA vrednost veću od $25\%$, što ukazuje da je više od polovine parova locirano u regijama koje su bar delimično dostupne rastvaraču. S druge strane, prisustvo prelaza sa RSA vrednostima bliskim nuli ukazuje na to da neki tipovi sekundarnih struktura uključuju strukturno zaklonjene pozicije. \\
+Sve vrednosti parametra \texttt{RSA} u odnosu na sekundarne strukture sačuvane su u datoteci \texttt{RSA\_secondary\_structure.csv}.
 \subsection{Ispitivanje zastupljenosti aminokiselina u podacima}
 
 Kodon je triplet nukleotida, odnosno tri uzastopna nukleotida mRNK. Kodoni predstavljaju šifre za aminokiseline. Jedna aminokiselina može biti kodirana jednim kodonom ili sa više kodona. Aminokiseline se dalje kombinuju i kreiraju proteine. Postoje regioni u kodu proteina gde sastav aminokiselina nije od značaja, i gde se neke aminokiseline pojavljuju više od drugih. Postavlja se pitanje da li je to slučajno ili postoji neki razlog koji objašnjava prezastupljenost određenih aminokiselina. 
