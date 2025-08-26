@@ -271,8 +271,8 @@ Na slici \ref{Slika:plddt} prikazan je primer strukture proteina sa određenim p
 \\
 Glavni cilj ovog dela analize je upravo bio ispitivanje prirode vrednosti pLDDT mere u podacima.
 \newpage
-\subsubsection{Prosečna vrednost pLDDT u podacima}
-Ispitivanje prosečne vrednosti pLDDT podrazumeva analiziranje vrednosti ove mere na celom skupu podataka. Ovakva analiza omogućava donošenje zaključaka o preciznosti predikcija lokalnih struktura proteina čiji su proteinski blokovi bili predmet intraživanja u ovom radu. \\
+\subsubsection{Srednja vrednost pLDDT parametra u podacima}
+Ispitivanje srednje vrednosti pLDDT podrazumeva analiziranje vrednosti ove mere na celom skupu podataka. Ovakva analiza omogućava donošenje zaključaka o preciznosti predikcija lokalnih struktura proteina čiji su proteinski blokovi bili predmet intraživanja u ovom radu. \\
 Radi utvrđivanja prirode posmatrane mere, najpre je konstruisan histogram vrednosti pLDDT. Prikaz histograma je dat na slici \ref{Slika:distribution}.
 \begin{figure}[htbp]
     	\centering
@@ -403,7 +403,7 @@ U analizi pLDDT mere ostalo je još ispitati njene vrednosti u odnosu na parove 
     \label{Tabela:8}
 \end{table}
 
-Vrednosti desktriptivnih statistika, pre svega prosečna vrednost od približno 73.45 i medijana od približno 78.46, ukazuju na visoku pouzdanost u ovom slučaju. Takođe, čak $68.97\%$, odnosno 40 od 58, parova sekundarnih struktura ima pLDDT vrednost iznad 70. Može se zaključiti da većinu parova, u prelazima čiji su deo, odlikuje precizna predikcija strukture. U tabeli \ref{Tabela:9} izvojeni su oni parovi kod kojih se javljaju najviše pLDDT vrednosti.
+Vrednosti opisnih statistika, pre svega prosečna vrednost od približno 73.45 i medijana od približno 78.46, ukazuju na visoku pouzdanost u ovom slučaju. Takođe, čak $68.97\%$, odnosno 40 od 58, parova sekundarnih struktura ima pLDDT vrednost iznad 70. Može se zaključiti da većinu parova, u prelazima čiji su deo, odlikuje precizna predikcija strukture. U tabeli \ref{Tabela:9} izvojeni su oni parovi kod kojih se javljaju najviše pLDDT vrednosti.
 \begin{table}[h!]
 \centering
 \begin{tabular}{|c|c|c|}
@@ -451,7 +451,7 @@ Na osnovu vrednosti RSA, odnosno izračunatoj izloženosti rastvaraču, aminokis
     \label{Slika:rsa}
 \end{figure}
 \\
-\subsubsection{Prosečne vrednosti RSA u podacima}
+\subsubsection{Srednja vrednost RSA parametra u podacima}
 Radi utvrđivanja RSA vrednosti u skupu podataka izračunate su opisne statistike i određen je broj izloženih i zakopanih aminokiselinskih ostataka. U podacima postoje dve kolone koje se odnose na RSA jer se svaki prelaz između proteinskih blokova sastoji od para aminokiselina za koji je određena RSA vrednost. U skladu sa tim, prilikom računanja brojnosti svake od RSA kategorija sabrane su vrednosti dobijene za prvu i drugu kolonu. \\
 Za obe kolone dobijena je srednja vrednost od približno $92\%$, dok medijana i treći kvartil iznose $100\%$. Takođe, dobijeno je da je $97.5\%$ aminokiselinskih ostataka, posmatrano u opštem slučaju, izloženo. Zaključak je da su u podacima daleko zastupljenije izložene aminokiseline i to visoko izložene, odnosno tako da su gotovo čitavom površinom dostupne rastvaraču.
 \subsubsection{Vrednosti RSA prema proteinskim blokovima}
@@ -922,7 +922,7 @@ U okviru klasifikacije, CatBoost i neuronske mreže pokazale su značajno bolje 
 \\
 Klasterovanje algoritmom K-Prototypes pokazalo je postojanje određene, ali slabije izražene strukture među prelazima, čime je potvrđena složenost podataka i heterogenost njihovih karakteristika. Vizuelizacija pomoću UMAP-a omogućila je identifikaciju potencijalnih klastera, dok je modifikovan senka koeficijent (\textit{eng. silhouette coefficient}) nad uzorkom podataka ukazao na delimičnu odvojenost klastera.\\
 \\
-Rad zaključuje da proteinski blokovi kao strukturni alfabeti predstavljaju koristan model za analizu lokalnih struktura proteina. Iako postoje izazovi u klasifikaciji i jasnom grupisanju zbog prirode podataka, kombinacija deskriptivne i prediktivne analize omogućava detaljno sagledavanje uloge pojedinačnih struktura u prelazima i njihovih međusobnih odnosa.
+Rad zaključuje da proteinski blokovi kao strukturni alfabeti predstavljaju koristan model za analizu lokalnih struktura proteina. Iako postoje izazovi u klasifikaciji i jasnom grupisanju zbog prirode podataka, kombinacija opisne i prediktivne analize omogućava detaljno sagledavanje uloge pojedinačnih struktura u prelazima i njihovih međusobnih odnosa.
 
 \newpage
 \begin{thebibliography}{5}
