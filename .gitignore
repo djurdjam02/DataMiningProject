@@ -9,6 +9,5 @@ missfont.log
 documentation.fdb_latexmk
 documentation.fls
 *.h5
-*.keras
 
 
