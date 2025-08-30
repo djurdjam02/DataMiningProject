@@ -591,6 +591,9 @@ aminokiselinama (poput S i G), kao i ka naelektrisanim aminokiselinama (E, K, R)
     \label{Slika:obsvsexp}
 \end{figure}
 
+Uzimajući u obzir da se aminokiselina glicin (G) pojavljuje među najzastupljenijima u neočekivanim prelazima, postavlja se pitanje koliko je informacija o visokoj učestalosti para G–G zaista značajna. Par glicin-glicin je ubedljivo najfrekventniji među parovima aminokiselina pa ta činjenica može biti posledica opšte prisutnosti glicina, a ne specifične tendencije da se glicin uparuje sam sa sobom.
+
+Frekvencije svih pojedinačnih aminokiselina sačuvane su u datoteci \\ \texttt{amino\_acid\_frequency.csv}.
 
 \newpage
 \section{Klasifikacija}
@@ -819,31 +822,59 @@ Klasterovanje predstavlja postupak grupisanja podataka na osnovu međusobne sli�
 
 S obzirom na karakteristike podataka, izbor algoritama pogodnih za njihovo grupisanje je ograničen. Stoga je za potrebe ovog istraživanja odabran algoritam \textit{K-Prototypes}, koji je specijalizovan za rad sa mešovitim podacima i omogućava istovremeno korišćenje različitih mera sličnosti za numeričke i kategoričke atribute.
 
+\subsection{Vizuelizacija podataka}
+Budući da \textit{K-Prototypes} algoritam zahteva unapred definisan broj klastera, vizuelizacija podataka može biti korisna pomoć pri određivanju odgovarajuće vrednosti ovog parametra. S obzirom na to da skup podataka koji se klasteruje sadrži deset atributa, odnosno da je višedimenzionalan, za svrhe prikaza podataka u dve dimenzije neophodno je primeniti neku od tehnika redukcije dimenzionalnosti.
+
+U ovom radu izabrana je tehnika \textbf{UMAP} (\textit{eng. Uniform Manifold Approximation and Projection}).
+\subsubsection{UMAP}
+UMAP je nelinearna metoda redukcije dimenzionalnosti koja se zasniva na matematičkim principima i oblastima kao što su Rimanova geometrija i algebarska topologija. Osmišljena je da očuva lokalnu i globalnu strukturu podataka prilikom projekcije u niži dimenzionalni prostor. Osim očuvanja globalne strukture prednosti UMAP-a se ogledaju i u skalabilnosti (podržava efikasan rad sa velikim skupovima podataka) i fleksibilnosti (pored vizuelizacije koristi se i u opšte svrhe redukcije dimenzionalnosti).
+
+Zbog sposobnosti da efikasno obradi velike i kompleksne skupove podataka mešovitog tipa, kao i da prepozna nelinearne obrasce, UMAP se pokazao kao prikladan alat za otkrivanje potencijalne strukture klastera u primeru konrektnog skupa podataka koji se koristi u radu.
+
+Za potrebe ove analize korišćena je implementacija iz biblioteke \texttt{umap-learn} u \textit{Python}-u. Zbog veličine originalnog skupa podataka (preko 670.000 redova) i njegove kompleksnosti (kombinacija kategoričkih atributa sa puno vrednosti i numeričkih atributa), izvršeno je slučajno uzorkovanje od 10\% instanci radi ubrzanja procesa. Numerički atributi su prethodno transformisani korišćenjem \texttt{Yeo-Johnson} transformacije radi stabilizacije disperzije i približavanja normalnoj raspodeli, dok su kategorički atributi enkodirani uz pomoć \texttt{LabelEncoder}-a. Tako pripremljeni podaci su zatim prosleđeni UMAP algoritmu radi vizuelizacije u dvodimenzionalnom prostoru. \footnote{Parametri \texttt{n\_components=2}, \texttt{n\_neighbors=10} i \texttt{min\_dist=0.3} određuju dimenziju prikaza, broj suseda za lokalno modeliranje i minimalnu međusobnu udaljenost tačaka u projektovanom prostoru, respektivno.} Na slici \ref{Slika:umap} prikazan je rezultat UMAP vizuelizacije.
+\begin{figure}[htbp]
+    	\centering
+    	\includegraphics[width=1\textwidth]{./images/umap.png}
+    	\caption{UMAP vizualizacija podataka (Yeo-Johnson + Label Encoding)}
+    	\label{Slika:umap}
+\end{figure}
+
+Na osnovu dobijene UMAP projekcije može se zaključiti da podaci ne formiraju jasno razdvojene klastere, ali se ipak mogu uočiti određene guste grupacije tačaka koje sugerišu postojanje strukture u skupu podataka. Ipak, treba imati u vidu da je projekcija urađena na ograničenom uzorku podataka pa se broj uočenih grupa ne mora u potpunosti preslikavati na ceo skup. 
+
+Analizom rezultata vizualizacije, odlučeno je da se klasterovanje detaljnije ispita za vrednosti broja klastera $k = 6$ i $k = 8$, kako bi se obuhvatile najistaknutije strukture u podacima.
+\subsection{Pretprocesiranje podataka}
+Pre primene \textit{K-Prototypes} algoritma, neophodno je sprovesti odgovarajuće korake pripreme podataka, imajući u vidu da ovaj algoritam istovremeno obrađuje numeričke i kategoričke atribute.
+\\
+Za numeričke atribute, izvršena je standardizacija pomoću \texttt{StandardScaler} iz biblioteke \texttt{sklearn}, čime se postiže da svi atributi imaju srednju vrednost 0 i standardnu devijaciju 1. Ova transformacija je važna kako bi se numerički atributi nalazili na uporedivoj skali i kako bi se sprečilo da atributi sa većim numeričkim rasponom dominiraju u računanju sličnosti.
+\\
+Za kategoričke atribute, dodatna transformacija nije neophodna jer \\K-Prototypes koristi internu reprezentaciju za poređenje kategoričkih vrednosti. Međutim, neophodno je obezbediti indeksne pozicije kolona koje predstavljaju kategoričke atribute, kako bi ih algoritam mogao prepoznati.
+
 \subsection{K-Prototypes}
-K-Prototypes algoritam predstavlja proširenje dobro poznatog K-means algoritma - koji radi samo sa numeričkim podacima, i njegove varijante za čisto kategoričke podatke K-modes.
-\\ Razvijen je s ciljem klasterovanja mešovitih podataka. Ovakvi podaci zahtevaju specifičan pristup, jer tradicionalne mere sličnosti nisu podjednako pogodne za oba tipa atributa.
-\\ K-Prototypes koristi kombinovanu meru sličnosti kojom integriše Euklidsko rastojanje za numeričke atribute i jednostavno uparivanje koeficijenata (SMC - sample matching coefficient) za kategoričke atribute:
+
+K-Prototypes algoritam predstavlja proširenje dobro poznatog K-means algoritma — koji radi samo sa numeričkim podacima, i njegove varijante za čisto kategoričke podatke K-modes.\\
+Razvijen je s ciljem klasterovanja mešovitih podataka. Ovakvi podaci zahtevaju specifičan pristup, jer tradicionalne mere sličnosti nisu podjednako pogodne za oba tipa atributa.\\
+K-Prototypes koristi kombinovanu meru sličnosti kojom integriše Euklidsko rastojanje za numeričke atribute i jednostavno uparivanje koeficijenata (SMC — sample matching coefficient) za kategoričke atribute:
 
 \begin{itemize}
     \item \textbf{Numerički atributi:} Sličnost se meri pomoću standardnog Euklidskog rastojanja:
     \[
     d_{num}(x_i, z_l) = \sum_{j=1}^{m_r} (x_{ij}^{(r)} - z_{lj}^{(r)})^2
     \]
-    gde je $l$ indeks posmatranog klastera, $r$ oznaka da je u pitanju numerički atribut, $x_{ij}^{(r)}$ vrednost $j$-tog numeričkog atributa instance (tačke) $i$, a $z_{lj}^{(r)}$ odgovarajuća vrednost prototipa(centra) klastera $l$ za atribut $j$. U ovom slučaju centar predstavlja aritmetičku sredinu svih tačaka u tom klasteru.
+    gde je $l$ indeks posmatranog klastera, $r$ oznaka da je u pitanju numerički atribut, $x_{ij}^{(r)}$ vrednost $j$-tog numeričkog atributa instance (tačke) $i$, a $z_{lj}^{(r)}$ odgovarajuća vrednost prototipa (centra) klastera $l$ za atribut $j$. U ovom slučaju centar predstavlja aritmetičku sredinu svih tačaka u tom klasteru.
 
     \item \textbf{Kategorički atributi:} Različitost se izražava kroz broj nepodudaranja između kategoričkih vrednosti:
     \[
     d_{cat}(x_i, z_l) = \gamma \sum_{j=1}^{m_c} \delta(x_{ij}^{(c)}, z_{lj}^{(c)})
     \]
     gde je $\delta(x, z) = 0$ ako su vrednosti jednake, a $1$ ako nisu. Koeficijent $\gamma$ predstavlja težinu kategoričkih atributa u ukupnoj meri različitosti.
-    
 \end{itemize}
+
 Ukupna udaljenost između instance $x_i$ i prototipa $z_l$ definisana je kao:
 \[
 d(x_i, z_l) = \sum_{j=1}^{m_r} (x_{ij}^{(r)} - z_{lj}^{(r)})^2 + \gamma \sum_{j=1}^{m_c} \delta(x_{ij}^{(c)}, z_{lj}^{(c)})
 \]
 
-Cilj K-Prototypes algoritma jeste minimizacija ukupne funkcije cene (engl. \textit{cost function}), koju je definisao Huang. Ukupna funkcija cene sastoji se iz dve komponente: troška za numeričke atribute i troška za kategoričke atribute:
+Cilj K-Prototypes algoritma jeste minimizacija ukupne funkcije cene (\textit{engl. cost function}), koju je definisao Huang \cite{huang1997clustering}. Ukupna funkcija cene sastoji se iz dve komponente: troška za numeričke atribute i troška za kategoričke atribute:
 
 \[
 Cost = \sum_{l=1}^{k} \sum_{x_i \in C_l} \left( \sum_{j=1}^{m_r} (x_{ij}^{(r)} - z_{lj}^{(r)})^2 + \gamma \sum_{j=1}^{m_c} \delta(x_{ij}^{(c)}, z_{lj}^{(c)}) \right)
@@ -857,66 +888,39 @@ gde je:
     \item $m_c$ broj kategoričkih atributa,
     \item $z_l$ centar klastera $l$.
 \end{itemize}
+
 Minimizacijom ukupne funkcije cene (\textit{eng. cost}) postiže se optimalno grupisanje instanci u klastere koji su međusobno što sličniji unutar klastera, a što različitiji između klastera. Uzimajući u obzir i numeričke i kategoričke atribute u istoj formuli, K-Prototypes predstavlja robustan i efikasan pristup klasterovanju mešovitih podataka i zato je izabran u ovom radu.
-\subsection{Vizuelizacija podataka}
-Budući da K-Prototypes algoritam zahteva unapred definisan broj klastera, vizuelizacija podataka može biti korisna pomoć pri određivanju odgovarajuće vrednosti ovog parametra. S obzirom na to da skup podataka koji se klasteruje sadrži deset atributa, odnosno da je višedimenzionalan, za svrhe prikaza podataka u dve dimenzije neophodno je primeniti neku od tehnika redukcije dimenzionalnosti.
 
-U ovom radu izabrana je tehnika \textbf{UMAP} (\textit{eng. Uniform Manifold Approximation and Projection}).
-\subsubsection{UMAP}
-UMAP je nelinearna metoda redukcije dimenzionalnosti koja se zasniva na matematičkim principima i oblastima kao što su Rimanova geometrija i algebarska topologija. Osmišljena je da očuva lokalnu i globalnu strukturu podataka prilikom projekcije u niži dimenzionalni prostor. Osim očuvanja globalne strukture prednosti UMAP-a se ogledaju i u skalabilnosti (podržava efikasan rad sa velikim skupovima podataka) i fleksibilnosti (pored vizuelizacije koristi se i u opšte svrhe redukcije dimenzionalnosti).
-
-Zbog sposobnosti da efikasno obradi velike i kompleksne skupove podataka mešovitog tipa, kao i da prepozna nelinearne obrasce, UMAP se pokazao kao prikladan alat za otkrivanje potencijalne strukture klastera u primeru konrektnog skupa podataka koji se koristi u radu.
-
-Za potrebe ove analize korišćena je implementacija iz biblioteke \texttt{umap-learn} u \textit{Python}-u. Zbog veličine originalnog skupa podataka (preko 670.000 redova) i njegove kompleksnosti (kombinacija kategoričkih atributa sa puno vrednosti i numeričkih atributa), izvršeno je slučajno uzorkovanje od 10\% instanci radi ubrzanja procesa. Numerički atributi su prethodno transformisani korišćenjem \texttt{Yeo-Johnson} transformacije radi stabilizacije disperzije i približavanja normalnoj raspodeli, dok su kategorički atributi enkodirani uz pomoć \texttt{LabelEncoder}-a. Tako pripremljeni podaci su zatim prosleđeni UMAP algoritmu radi vizuelizacije u dvodimenzionalnom prostoru. \footnote{Parametri \texttt{n\_components=2}, \texttt{n\_neighbors=10} i \texttt{min\_dist=0.3} određuju dimenziju prikaza, broj suseda za lokalno modeliranje i minimalnu međusobnu udaljenost tačaka u projektovanom prostoru, respektivno.}
-
-Na slici \ref{Slika:umap} prikazan je rezultat UMAP vizuelizacije.
-\newpage
-\begin{figure}[htbp]
-    	\centering
-    	\includegraphics[width=1\textwidth]{./images/umap.png}
-    	\caption{UMAP vizualizacija podataka (Yeo-Johnson + Label Encoding)}
-    	\label{Slika:umap}
-\end{figure}
-
-Na osnovu dobijene UMAP projekcije može se uočiti da postoje relativno jasno odvojene grupe tačaka, što vizuelno ukazuje na postojanje klastera u podacima. Ipak, treba imati u vidu da je projekcija urađena na ograničenom uzorku podataka pa se broj uočenih grupa ne mora u potpunosti preslikavati na ceo skup. 
-
-Analizom rezultata vizualizacije, odlučeno je da se klasterovanje detaljnije ispita za vrednosti broja klastera $k = 8$ i $k = 10$, kako bi se obuhvatile najistaknutije strukture u podacima.
-\subsection{Pretprocesiranje podataka}
-Pre primene K-Prototypes algoritma, neophodno je sprovesti odgovarajuće korake pripreme podataka, imajući u vidu da ovaj algoritam istovremeno obrađuje numeričke i kategoričke atribute.
-\\
-Za numeričke atribute, izvršena je standardizacija pomoću \texttt{StandardScaler} iz biblioteke \texttt{sklearn}, čime se postiže da svi atributi imaju srednju vrednost 0 i standardnu devijaciju 1. Ova transformacija je važna kako bi se numerički atributi nalazili na uporedivoj skali i kako bi se sprečilo da atributi sa većim numeričkim rasponom dominiraju u računanju sličnosti.
-\\
-Za kategoričke atribute, dodatna transformacija nije neophodna jer \\K-Prototypes koristi internu reprezentaciju za poređenje kategoričkih vrednosti. Međutim, neophodno je obezbediti indeksne pozicije kolona koje predstavljaju kategoričke atribute, kako bi ih algoritam mogao prepoznati.
+U implementaciji algoritma korišćena je biblioteka \texttt{kmodes} za Python, koja obuhvata funkcionalnosti kako za K-Modes tako i za K-Prototypes algoritam \cite{kmodeslib}.
 
 \subsection{Rezultati klasterovanja}
-Algoritam \texttt{K-Prototypes} primenjen je nad celokupnim skupom podataka, koji sadrži ukupno $671{,}155$ instanci i $10$ atributa mešovitog tipa (numeričkih i kategoričkih). Klasterovanje je sprovedeno za dva različita broja klastera -- $k=8$ i $k=10$, kako bi se omogućilo poređenje rezultata i procena optimalnog broja klastera.
+Algoritam \texttt{K-Prototypes} primenjen je nad celokupnim skupom podataka, koji sadrži ukupno $671{,}155$ instanci i $10$ atributa mešovitog tipa (numeričkih i kategoričkih). Klasterovanje je sprovedeno za dva različita broja klastera -- $k=6$ i $k=8$, kako bi se omogućilo poređenje rezultata i procena optimalnog broja klastera.
 
-Za $k=8$, dobijena ukupna cena klasterovanja (\texttt{cost\_}) iznosi približno \textbf{1.392.549}, dok za $k=10$ iznosi nešto niže, približno \textbf{1.316.788}, što ukazuje na nešto bolje interno uklapanje instanci u klastere kod većeg broja klastera.
-
-Radi vizuelne interpretacije rezultata, odnosno prikaza klastera, iskorišćena je UMAP tehnika nad uzorkom od $10\%$ celokupnog skupa podataka. Vizuelizacija 8 klastera je prikazana na slici \ref{Slika:clusters1}, dok slika \ref{Slika:clusters2} predstavlja vizuelizaciju 10 klastera.
+Radi vizuelne interpretacije rezultata, odnosno prikaza klastera, iskorišćena je UMAP tehnika nad uzorkom od $10\%$ celokupnog skupa podataka. Vizuelizacija 6 klastera je prikazana na slici \ref{Slika:clusters1}, dok slika \ref{Slika:clusters2} predstavlja vizuelizaciju 8 klastera.
 
 \begin{figure}[htbp]
     	\centering
     	\includegraphics[width=1\textwidth]{./images/umap_clusters1.png}
-    	\caption{Vizuelizacija klastera (k=8)}
+    	\caption{Vizuelizacija klastera (k=6)}
     	\label{Slika:clusters1}
 \end{figure}
 \begin{figure}[htbp]
     	\centering
     	\includegraphics[width=1\textwidth]{./images/umap_clusters2.png}
-    	\caption{Vizuelizacija klastera (k=10)}
+    	\caption{Vizuelizacija klastera (k=8)}
     	\label{Slika:clusters2}
 \end{figure}
+\newpage
 
 Procena kvaliteta klasterovanja izvršena je pomoću senka koeficijenta \textit{eng. silhouette coefficient}, prilagođenog za mešovite tipove podataka korišćenjem \textbf{Gower} rastojanja. Zbog veličine skupa podataka i formiranja matrice prilikom računanja \textbf{Gower} rastojanja, evaluacija je sprovedena nad uzorkom od 4\%. 
 
 Dobijeni rezultati su sledeći:
 \begin{itemize}
-    \item Za $k=8$ vrednost senka koeficijent iznosi \textbf{0.1663}.
-    \item Za $k=10$ vrednost senka koeficijent iznosi \textbf{0.1682}.
+    \item Za $k=6$ vrednost senka koeficijent iznosi \textbf{0.1777}.
+    \item Za $k=8$ vrednost senka koeficijent iznosi \textbf{0.1933}.
 \end{itemize}
 
-Obe vrednosti ukazuju na slabo izraženu, ali prisutnu strukturu klastera i delimičnu odvojenost klastera. Nešto viši rezultat za $k=10$ sugeriše da veći broj klastera može bolje obuhvatiti varijacije u podacima. Međutim, treba imati u vidu da se evaluacija vršila na uzorku.
+Obe vrednosti ukazuju na slabo izraženu, ali prisutnu strukturu klastera i delimičnu odvojenost klastera. Nešto viši rezultat za $k=8$ sugeriše da veći broj klastera može bolje obuhvatiti varijacije u podacima. Međutim, treba imati u vidu da se evaluacija vršila na uzorku.
 
 Iz rezultata se zaključuje da među prelazima proteinskih blokova postoji izvesna sličnost, ali ona nije jasno izražena u prostoru karakteristika.
 \newpage
@@ -966,6 +970,14 @@ Rad zaključuje da proteinski blokovi kao strukturni alfabeti predstavljaju kori
     \textit{Protein Secondary Structure: An Evolutionary Perspective}. 
     BioPhysical Reviews, Preprint, 2010. 
     Available at: \url{https://inserm.hal.science/inserm-00512823/file/Joseph_Agarwal_BiohysRev_2010_preprint.pdf}, accessed May 27, 2025.
+    \bibitem{huang1997clustering}
+Zhexue Huang. 
+	\textit{Clustering large data sets with mixed numeric and categorical values}.
+	In: Proceedings of the 1st Pacific-Asia Conference on Knowledge Discovery and Data Mining 		(PAKDD), 1997.
+	\bibitem{kmodeslib}
+	Nicolaas Vreeswijk.
+	\textit{kmodes Python library}.
+	Dostupno na: \url{https://github.com/nicodv/kmodes}
 
 \end{thebibliography}
 \end{document}
