@@ -601,6 +601,12 @@ Algoritmi klasifikacije se u mašinskom učenju koriste za predviđanje ciljnog 
 
 Kako se bavimo prelazima i parovima na njima najpre je neophodno da izvršimo konkatenaciju određenih kolona i napravimo novu kolonu koja će služiti kao ciljna promenljiva. Vrednosti iz prve i druge kolone su konkatenirane uz očuvanje redosleda (npr. 'jb' nije isto što i 'bj').
 
+Ulazni podaci korišćeni za klasifikaciju preuzeti su iz datoteke \texttt{March_2024_AF2_01.txt}. U cilju poređenja performansi različitih pristupa, primenjena su dva algoritma za klasifikaciju: \textbf{CatBoost} i \textbf{neuronske mreže}.
+
+Nakon treniranja modela, oba modela su sačuvana radi kasnijeg korišćenja i analize. Pored modela, generisane su i odgovarajuće \textbf{matrice konfuzije}, koje omogućavaju procenu tačnosti klasifikacije i identifikaciju eventualnih problema poput neuravnoteženosti klasa. 
+
+Svi rezultati, uključujući sačuvane modele i matrice konfuzije, dostupni su u direktorijumu \texttt{classification/results}.
+
 \subsection{Balansiranost klasa}
 Kod problema klasifikacije podataka važno je proveriti balansiranost klasa, odnosno da li se sve klase ravnomerno javljaju ili postoje neke koje su zastupljenije. U slučaju da postoje klase koje su značajno brojnije od drugih može doći do pristrasnosti tim klasama i zanemarivanju ređih klasa, što dovodi do lošije preciznosti modela.
 Kako je postoji 20 aminokiselina, a mi predviđamo parove aminokiselina, ukupan broj klasa je 20*20 = 400. Na slici \ref{Slika:aa_imbalance} predstavljena je raspodela klasa aminokiselina.
@@ -621,7 +627,7 @@ U slučaju kada je ciljna promenljiva kombinacija parova proteinskih blokova, ko
     \label{Slika:pb_imbalance}
 \end{figure}
 
-U slučaju kombinacija sekundarnih struktura, pri čemu je ukupno identifikovano 65 različitih kombinacija, vizuelna analiza raspodele klasa (prikazana na slici \ref{Slika:ss_imbalance}) ukazuje na ekstremnu nebalansiranost. Jedna jedina klasa dominira skupom sa preko 500.000 instanci, dok su ostale klase višestruko manje zastupljene — mnoge sa frekvencijom manjom od 10.000, a neke i blizu nule.
+U slučaju kombinacija sekundarnih struktura, pri čemu je ukupno identifikovano 65 različitih kombinacija, vizuelna analiza raspodele klasa (prikazana na slici \ref{Slika:ss_imbalance}) ukazuje na ekstremnu nebalansiranost. Jedna jedina klasa dominira skupom sa preko 500.000 instanci, dok su ostale klase višestruko manje zastupljene, mnoge sa frekvencijom manjom od 10.000, a neke i blizu nule.
 
 \begin{figure}[htbp]
     \centering
@@ -635,7 +641,7 @@ Ovakva distribucija je tipična za biološke podatke, gde određene strukturne k
 
 \subsection{CatBoost}
 
-CatBoost je savremeni algoritam za mašinsko učenje baziran na gradijentnom buđenju stabala (eng. gradient boosting on decision trees), razvijen od strane kompanije Yandex. Osmišljen je sa ciljem da poboljša efikasnost i tačnost u radu sa strukturisanim podacima, posebno u scenarijima gde su prisutne i numeričke i kategorijske promenljive. Za razliku od drugih popularnih implementacija kao što su XGBoost i LightGBM, CatBoost ima ugrađenu podršku za direktno korišćenje kategorijskih promenljivih bez potrebe za njihovom prethodnom transformacijom u numerički format (npr. putem one-hot enkodiranja), čime se pojednostavljuje priprema podataka i smanjuje mogućnost preprilagođavanja.
+CatBoost je savremeni algoritam za mašinsko učenje baziran na gradijentnom pojačavanju stabala (eng. gradient boosting on decision trees), razvijen od strane kompanije Yandex. Osmišljen je sa ciljem da poboljša efikasnost i tačnost u radu sa strukturisanim podacima, posebno u scenarijima gde su prisutne i numeričke i kategorijske promenljive. Za razliku od drugih popularnih implementacija kao što su XGBoost i LightGBM, CatBoost ima ugrađenu podršku za direktno korišćenje kategorijskih promenljivih bez potrebe za njihovom prethodnom transformacijom u numerički format (npr. putem one-hot enkodiranja), čime se pojednostavljuje priprema podataka i smanjuje mogućnost preprilagođavanja.
 Prilikom treniranja modela korišćen je parametar \texttt{auto\_class\_weights=\textquotesingle Balanced\textquotesingle}, koji omogućava CatBoost algoritmu da automatski izračuna težine za svaku klasu na osnovu njihove učestalosti u skupu podataka. Ova tehnika se koristi za ublažavanje uticaja nebalansiranosti klasa, pri čemu ređe klase dobijaju veću težinu tokom treniranja, čime se smanjuje pristrasnost modela prema češće zastupljenim klasama.
 
 Težina $w_i$ za svaku klasu $i$ računa se po sledećoj formuli:
@@ -679,7 +685,7 @@ S obzirom da su metrike na trening i test skupu veoma slične, možemo zaključi
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{./images/conf_mat_aa.png}
-    \caption{Matrica konfuzije za parove aminokiselina.}
+    \caption{Matrica konfuzije za parove aminokiselina, true label predstavlja stvarnu klasu, a predicted label predviđenu.}
     \label{Slika:confmataa}
 \end{figure}
 
@@ -714,7 +720,7 @@ F1 mera (F1 Score)     & 0.9472 & 0.9481 \\
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{./images/conf_mat_pb.png}
-    \caption{Matrica konfuzije za parove proteinskih blokova.}
+    \caption{Matrica konfuzije za parove proteinskih blokova, true label predstavlja stvarnu klasu, a predicted label predviđenu}
     \label{Slika:confmatpb}
 \end{figure}
 
@@ -750,7 +756,7 @@ S obzirom da su metrike na test i trening skupu veoma slične, nema indikacija o
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{./images/conf_mat_ss.png}
-    \caption{Matrica konfuzije za parove sekundarnih struktura.}
+    \caption{Matrica konfuzije za parove sekundarnih struktura, true label predstavlja stvarnu klasu, a predicted label predviđenu}
     \label{Slika:confmatss}
 \end{figure}
 
