@@ -601,7 +601,7 @@ Algoritmi klasifikacije se u mašinskom učenju koriste za predviđanje ciljnog 
 
 Kako se bavimo prelazima i parovima na njima najpre je neophodno da izvršimo konkatenaciju određenih kolona i napravimo novu kolonu koja će služiti kao ciljna promenljiva. Vrednosti iz prve i druge kolone su konkatenirane uz očuvanje redosleda (npr. 'jb' nije isto što i 'bj').
 
-Ulazni podaci korišćeni za klasifikaciju preuzeti su iz datoteke \texttt{March_2024_AF2_01.txt}. U cilju poređenja performansi različitih pristupa, primenjena su dva algoritma za klasifikaciju: \textbf{CatBoost} i \textbf{neuronske mreže}.
+Ulazni podaci korišćeni za klasifikaciju preuzeti su iz datoteke \\\texttt{March\_2024\_AF2\_01.txt}.U cilju poređenja performansi različitih pristupa, primenjena su dva algoritma za klasifikaciju: \textbf{CatBoost} i \textbf{neuronske mreže}.
 
 Nakon treniranja modela, oba modela su sačuvana radi kasnijeg korišćenja i analize. Pored modela, generisane su i odgovarajuće \textbf{matrice konfuzije}, koje omogućavaju procenu tačnosti klasifikacije i identifikaciju eventualnih problema poput neuravnoteženosti klasa. 
 
@@ -826,6 +826,7 @@ S druge strane, trening metrika pokazuje blagi pad greške i stabilnu, ali relat
 \section{Klasterovanje}
 Klasterovanje predstavlja postupak grupisanja podataka na osnovu međusobne sličnosti, pri čemu se formiraju grupe tj. klasteri unutar kojih su podaci najsličniji jedni drugima. U mašinskom učenju postoji veliki broj algoritama klasterovanja u zavisnosti od prirode podataka. U ovom radu, predmet analize je skup podataka sa mešovitim tipovima atributa. Kategorički atributi odnose se na parove proteinskih blokova, aminokiselina i sekundarnih struktura, dok numerički atributi obuhvataju očekivanu učestalost prelaza između proteinskih blokova, pLDDT vrednosti i RSA parametre. Dakle, cilj ovog dela rada jeste da se izvrši klasterovanje prelaza između proteinskih blokova.
 
+Ulazni podaci korišćeni za klasterovanje preuzeti su iz datoteke \\\texttt{March\_2024\_AF2\_01.txt}.
 S obzirom na karakteristike podataka, izbor algoritama pogodnih za njihovo grupisanje je ograničen. Stoga je za potrebe ovog istraživanja odabran algoritam \textit{K-Prototypes}, koji je specijalizovan za rad sa mešovitim podacima i omogućava istovremeno korišćenje različitih mera sličnosti za numeričke i kategoričke atribute.
 
 \subsection{Vizuelizacija podataka}
